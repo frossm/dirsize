@@ -1,0 +1,29 @@
+name: dirsize
+version: '2020.07.01'
+summary: Command line Directory Scanner
+description: |
+  Command line cursed based tool to scan directories and report on the
+  size and file counts.  
+
+grade: stable 
+confinement: strict
+base: core18
+
+apps:
+  dirsize:
+    command: bin/java -Djava.util.prefs.userRoot="$SNAP_USER_DATA" -jar $SNAP/jar/dirsize.jar
+
+parts:
+  library:
+    plugin: maven
+    source: https://github.com/frossm/library.git
+    source-tag: master
+    source-type: git
+    maven-options: [install]
+
+  dirsize:
+    plugin: maven
+    source: https://github.com/frossm/dirsize.git
+    source-tag: master
+    source-type: git
+    after: [library]
