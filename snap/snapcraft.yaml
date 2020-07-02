@@ -2,8 +2,8 @@ name: dirsize
 version: '2020.07.01'
 summary: Command line Directory Scanner
 description: |
-  Command line cursed based tool to scan directories and report on the
-  size and file counts.  
+  Command line tool to scan directories and report on the
+  size and file counts. Java based so should run everywhere.
 
 grade: stable 
 confinement: strict
