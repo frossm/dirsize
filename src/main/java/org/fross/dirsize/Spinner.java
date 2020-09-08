@@ -17,6 +17,8 @@ import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
 
 public class Spinner extends Thread {
+	protected final int SPINNER_DELAY = 120;
+	
 	String[] spinnerSymbols = { "|", "/", "-", "\\" };
 	int currentSpinner = 0;
 
@@ -30,14 +32,12 @@ public class Spinner extends Thread {
 			displaySpinner();
 
 			try {
-				TimeUnit.MILLISECONDS.sleep(100);
+				TimeUnit.MILLISECONDS.sleep(SPINNER_DELAY);
 			} catch (InterruptedException ex) {
 				Thread.currentThread().interrupt();
 			}
 		}
 
-		// Erase the spinner characters before we exit
-		System.out.println(ansi().eraseLine());
 	}
 
 	/**

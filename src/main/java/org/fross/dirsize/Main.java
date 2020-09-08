@@ -37,6 +37,7 @@ public class Main {
 	private static final int DISPLAY_PERCENT_DIRSIZE = 15;
 	private static final int DISPLAY_PERCENT_NUMFILES = 15;
 	private static final int DISPLAY_PERCENT_SIZEMAP = 40;
+	private static final String ROOT_DIR_NAME = "[RootDir]";
 
 	// Class Variables
 	protected static String VERSION;
@@ -53,22 +54,23 @@ public class Main {
 		File[] rootMembers = {};
 		int maxColumns = org.fusesource.jansi.internal.WindowsSupport.getWindowsTerminalWidth() - 1;
 		int terminalWidth = maxColumns;
-		char sortBy = 's';	// Default is sortBy size
+		char sortBy = 's';	// Default is sortBy size. 'f' and 'd' are also allowed
 
-		// HashMaps the results with the directory name as the key
+		// Define the HashMaps the scanning results. The directory name will be the key
 		HashMap<String, Long> mapSize = new HashMap<String, Long>();
 		HashMap<String, Long> mapFiles = new HashMap<String, Long>();
 		HashMap<String, String> mapFullPath = new HashMap<String, String>();
 
-		// Variables to hold the total directories, sizes, and file counts
-		long globalTotalSubdirs = 1L; // Starts with [root]
-		long globalTotalSize = 0L;
-		long globalTotalFiles = 0L;
+		// Variables to hold the overall grand total directories, sizes, and file counts
+		long grandTotalSubdirs = 1L; // Starts with [root]
+		long grandTotalSize = 0L;
+		long grandTotalFiles = 0L;
 
-		// MaxColumns doens't work within Eclipse. This is a quick fix or ensure you use the -c switch
-		if (maxColumns < 0) {
-			Output.debugPrint("Output < 0 (Eclipse?) - setting columns to 100");
-			maxColumns = 100;
+		// getWindowsTerminalWidth() doens't work within Eclipse. This is a quick fix or ensure you use the
+		// -c switch
+		if (terminalWidth < 0) {
+			Output.debugPrint("Seems to be running within Eclipse. Setting columns to 100");
+			terminalWidth = 100;
 		}
 
 		// Process application level properties file and update properties from Maven at build time
@@ -106,7 +108,7 @@ public class Main {
 
 			// Export to CSV File
 			case 'x':
-				// TODO
+				Output.printColorln(Ansi.Color.RED, "Not Yet Implemented...");
 				break;
 
 			// Sort output by...
@@ -199,11 +201,11 @@ public class Main {
 		Output.debugPrint("SortBy [s, f, d]: " + sortBy);
 
 		// Prime the hash maps that will store the results
-		mapSize.put("[root]", (long) 0);
-		mapFiles.put("[root]", (long) 0);
-		mapFullPath.put("[root]", rootDir);
+		mapSize.put(ROOT_DIR_NAME, (long) 0);
+		mapFiles.put(ROOT_DIR_NAME, (long) 0);
+		mapFullPath.put(ROOT_DIR_NAME, rootDir);
 
-		Output.printColor(Ansi.Color.WHITE, "Processing... ");
+		Output.printColor(Ansi.Color.WHITE, "Scanning " + rootDir + ":  ");
 
 		// Create the spinner
 		Spinner spinner = new Spinner();
@@ -216,9 +218,10 @@ public class Main {
 		// Main program loop. Step through each of the root members.
 		// If it's a file, add it up. If it's a directory, recursively get the totals
 		for (int i = 0; i < rootMembers.length; i++) {
+
 			// Process Directories
 			if (rootMembers[i].isDirectory() == true) {
-				// ScanDir returns a long array with [0] = Size totals & [1] = Files totals
+				// ScanDir returns a long array with [0]=Size totals & [1]=Files totals [2]=Errors
 				long[] subDirTotals = new ScanDir().ScanDirectory(rootMembers[i]);
 
 				// Save the results to the hash maps
@@ -226,18 +229,18 @@ public class Main {
 				mapFiles.put(rootMembers[i].getName(), subDirTotals[1]);
 
 				// Update overall totals
-				globalTotalSubdirs++;
-				globalTotalSize += subDirTotals[0];
-				globalTotalFiles += subDirTotals[1];
+				grandTotalSubdirs++;
+				grandTotalSize += subDirTotals[0];
+				grandTotalFiles += subDirTotals[1];
 			}
 
 			// Process Files
 			else {
-				mapFiles.put("[root]", mapFiles.get("[root]") + 1);
-				mapSize.put("[root]", mapSize.get("[root]") + rootMembers[i].length());
+				mapFiles.put(ROOT_DIR_NAME, mapFiles.get(ROOT_DIR_NAME) + 1);
+				mapSize.put(ROOT_DIR_NAME, mapSize.get(ROOT_DIR_NAME) + rootMembers[i].length());
 
 				// Update overall totals
-				globalTotalFiles++;
+				grandTotalFiles++;
 			}
 		}
 
@@ -296,7 +299,6 @@ public class Main {
 		// Display the output
 		for (Map.Entry<String, Long> i : resultMap.entrySet()) {
 			String key = i.getKey();
-			Long value = i.getValue();
 
 			if (new File(mapFullPath.get(key)).isDirectory() == true) {
 				// Name
@@ -313,7 +315,7 @@ public class Main {
 				Output.printColor(Ansi.Color.WHITE, outString);
 
 				// Size Map
-				int numAsterisk = (int) (value / sizePerSlot);
+				int numAsterisk = (int) (mapSize.get(key) / sizePerSlot);
 				int numDashes = displaySizeMap - numAsterisk;
 				Output.printColor(Ansi.Color.WHITE, "    [");
 				Output.printColor(Ansi.Color.YELLOW, "*".repeat(numAsterisk));
@@ -327,19 +329,19 @@ public class Main {
 		// Display the summary information
 		Output.printColorln(Ansi.Color.CYAN, "-".repeat(terminalWidth));
 		// Name
-		String outString = String.format("Directories: %-" + (displayNameCol - 13) + "s", globalTotalSubdirs);
+		String outString = String.format("Directories: %-" + (displayNameCol - 13) + "s", grandTotalSubdirs);
 		Output.printColor(Ansi.Color.CYAN, outString);
 		// Size
-		outString = String.format("%" + displaySizeCol + "s", Format.humanReadableBytes(globalTotalSize));
+		outString = String.format("%" + displaySizeCol + "s", Format.humanReadableBytes(grandTotalSize));
 		Output.printColor(Ansi.Color.WHITE, outString);
 		// Files
 		DecimalFormat df = new DecimalFormat("#,###");
-		outString = String.format("%" + displayFilesCol + "s", df.format((double) globalTotalFiles));
+		outString = String.format("%" + displayFilesCol + "s", df.format((double) grandTotalFiles));
 		Output.printColor(Ansi.Color.WHITE, outString);
 
 		// Gather and display benchmark data
 		float timeDelta = benchmarkTimer.Stop();
-		float filesPerMS = globalTotalFiles / timeDelta;
+		float filesPerMS = grandTotalFiles / timeDelta;
 		outString = String.format("\nScanning Time: %,d ms (%,.3f files/ms)", (int) timeDelta, filesPerMS);
 		Output.printColorln(Ansi.Color.CYAN, "\n" + outString);
 

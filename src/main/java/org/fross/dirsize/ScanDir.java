@@ -19,7 +19,7 @@ import org.fusesource.jansi.Ansi;
  * of files and sizes of a sent subdirectory.
  *
  * It is sent a File Object of the directory to scan and returns a Long array
- * Element [0] = Total Size Element [1] = Total Files
+ * Element [0] = Total Size Element [1] = Total Files  [2] = Error Count
  *
  * @author michael.d.fross
  */
@@ -27,12 +27,12 @@ public class ScanDir {
 
 	public long[] ScanDirectory(File DirToScan) {
 		// Accumulating totals. Element [0]=Total Size. Element [1]=Total Files.
-		long[] LocalTotals = { 0, 0 };
+		long[] LocalTotals = { 0, 0 , 0};
 
 		// Holds the results of a recursive call
 		long[] SubTotals;
 
-		// List of files and directories of the provided dir
+		// List of files and directories of the provided directory
 		File[] DirContents;
 
 		try {
@@ -52,7 +52,8 @@ public class ScanDir {
 				}
 			}
 		} catch (NullPointerException Ex) {
-			Output.printColorln(Ansi.Color.RED, "ERROR: " + DirToScan.getName());
+			Output.printColorln(Ansi.Color.RED, "SCAN ERROR: " + DirToScan.getName());
+			LocalTotals[2] += 1;
 
 		} catch (Exception Ex) {
 			Output.printColorln(Ansi.Color.RED, "ERROR Scanning " + DirToScan.toString() + "\n" + Ex.getMessage());
