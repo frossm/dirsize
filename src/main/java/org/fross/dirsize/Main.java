@@ -299,22 +299,28 @@ public class Main {
 		}
 
 		// Display the output
+		int colorCounter = 0;
 		for (Map.Entry<String, Long> i : resultMap.entrySet()) {
 			String key = i.getKey();
 
+			// Color swapper to alternate the colors of each output line
+			Ansi.Color bgColor, fgColor;
+			fgColor = ((colorCounter % 2 == 0) ? Ansi.Color.WHITE : Ansi.Color.CYAN);
+			bgColor = Ansi.Color.DEFAULT;
+			
 			if (new File(mapFullPath.get(key)).isDirectory() == true) {
 				// Name
 				String outString = String.format("%-" + displayNameCol + "s", key);
-				Output.printColor(Ansi.Color.WHITE, outString);
+				Output.printColor(fgColor, bgColor, outString);
 
 				// Size
 				outString = String.format("%" + displaySizeCol + "s", Format.humanReadableBytes(mapSize.get(key)));
-				Output.printColor(Ansi.Color.WHITE, outString);
+				Output.printColor(fgColor, bgColor, outString);
 
 				// Files
 				DecimalFormat df = new DecimalFormat("#,###");
 				outString = String.format("%" + displayFilesCol + "s", df.format((double) mapFiles.get(key)));
-				Output.printColor(Ansi.Color.WHITE, outString);
+				Output.printColor(fgColor, bgColor, outString);
 
 				// Size Map
 				int numAsterisk = (int) (mapSize.get(key) / sizePerSlot);
@@ -324,8 +330,8 @@ public class Main {
 				Output.printColor(Ansi.Color.CYAN, "-".repeat(numDashes));
 				Output.printColor(Ansi.Color.WHITE, "]");
 				System.out.println();
-
 			}
+			colorCounter++;
 		}
 
 		// Display the summary information
