@@ -6,9 +6,9 @@
 DirSize is a directory reporting tool.  It recursively scans the provided (or current) directory, and reports the number of files and director sizes of each subdirectory present.  It also defaults to sorting by by directory size, but there are other options.
 
 ## Command-Line Options
-**Usage: 
+**Usage:**
 
-`java -jar dirsize.jar [-D] [-x <filename>] [-ss|-sf|-sd] [-c width] [-v] [-h|?] [Directory]`**
+`java -jar dirsize.jar [-D] [-x <filename>] [-ss|-sf|-sd] [-c width] [-v] [-h|?] [Directory]`
 
 |Option|Description|
 |-------|-----------|
