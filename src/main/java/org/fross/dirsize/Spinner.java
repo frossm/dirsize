@@ -18,7 +18,7 @@ import org.fusesource.jansi.Ansi;
 
 public class Spinner extends Thread {
 	protected final int SPINNER_DELAY = 120;
-	
+
 	String[] spinnerSymbols = { "|", "/", "-", "\\" };
 	int currentSpinner = 0;
 

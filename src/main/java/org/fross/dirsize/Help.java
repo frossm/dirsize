@@ -25,7 +25,7 @@ public class Help {
 	 */
 	public static void Display() {
 		Output.printColorln(Ansi.Color.CYAN, "\n+------------------------------------------------------------------------------+");
-		Output.printColorln(Ansi.Color.CYAN, "DirSize v" + Main.VERSION + ".  "+Main.COPYRIGHT);
+		Output.printColorln(Ansi.Color.CYAN, "DirSize v" + Main.VERSION + ".  " + Main.COPYRIGHT);
 		Output.printColorln(Ansi.Color.CYAN, "+------------------------------------------------------------------------------+");
 		Output.printColorln(Ansi.Color.WHITE, "DirSize is a tool to display directory size and file totals of subdirectories");
 		Output.printColorln(Ansi.Color.CYAN, "                https://github.com/frossm/dirsize");
@@ -40,7 +40,7 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, "   -x filename: Export the results as a CSV to the file provided");
 		Output.printColorln(Ansi.Color.WHITE, "   -c width:    Width of output in columns");
 		Output.printColorln(Ansi.Color.WHITE, "   -h | -?:     Display this help information");
-	
+
 		Output.printColorln(Ansi.Color.YELLOW, "\nExample Usage:");
 		Output.printColorln(Ansi.Color.WHITE, " java -jar dirsize.jar");
 		Output.printColorln(Ansi.Color.CYAN, "    Display a size sorted report from the current directory\n");

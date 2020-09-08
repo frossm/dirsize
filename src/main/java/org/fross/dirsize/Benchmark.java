@@ -34,8 +34,7 @@ public class Benchmark {
 	}
 
 	/**
-	 * Stop the timer by setting an end time and then calculating the delta in
-	 * milliseconds.
+	 * Stop the timer by setting an end time and then calculating the delta in milliseconds.
 	 *
 	 * @return long
 	 */
@@ -43,7 +42,7 @@ public class Benchmark {
 		EndTime = LocalTime.now();
 
 		Delta = ChronoUnit.MILLIS.between(StartTime, EndTime);
-		
+
 		Output.debugPrint("Benchmark EndTime   = " + EndTime.toString());
 		Output.debugPrint("Milliseconds Delta = " + Delta);
 

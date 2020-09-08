@@ -15,11 +15,11 @@ import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
 
 /**
- * This class contains methods for recursively scanning and reporting the number
- * of files and sizes of a sent subdirectory.
+ * This class contains methods for recursively scanning and reporting the number of files and sizes
+ * of a sent subdirectory.
  *
- * It is sent a File Object of the directory to scan and returns a Long array
- * Element [0] = Total Size Element [1] = Total Files  [2] = Error Count
+ * It is sent a File Object of the directory to scan and returns a Long array Element [0] = Total
+ * Size Element [1] = Total Files [2] = Error Count
  *
  * @author michael.d.fross
  */
@@ -27,7 +27,7 @@ public class ScanDir {
 
 	public long[] ScanDirectory(File DirToScan) {
 		// Accumulating totals. Element [0]=Total Size. Element [1]=Total Files.
-		long[] LocalTotals = { 0, 0 , 0};
+		long[] LocalTotals = { 0, 0, 0 };
 
 		// Holds the results of a recursive call
 		long[] SubTotals;

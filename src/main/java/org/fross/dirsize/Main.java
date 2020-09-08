@@ -284,10 +284,10 @@ public class Main {
 		Map<String, Long> resultMap = null;
 		switch (sortBy) {
 		case 's':
-			resultMap = HashmapUtils.sortByValueDescending(mapSize);
+			resultMap = SizeMap.sortByValueDescending(mapSize);
 			break;
 		case 'f':
-			resultMap = HashmapUtils.sortByValueDescending(mapFiles);
+			resultMap = SizeMap.sortByValueDescending(mapFiles);
 			break;
 		case 'd':
 			// TODO: Case insensitive ordering
