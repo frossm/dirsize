@@ -15,7 +15,7 @@ DirSize is a directory reporting tool.  It recursively scans the provided (or cu
 |-ss| Sort output by the directory sizes.  This is the default|
 |-sf| Sort output by the number of files|
 |-sd| Sort output by directory name|
-|-c|Set By default, DirSize uses the full console width.  However, you can change this.  Useful if you have a very wide console display|
+|-c Width|Set By default, DirSize uses the full console width.  However, you can change this.  Useful if you have a very wide console display|
 |-v| Simply display the program version and exit|
 |-h\|-?| Display the program help|
 
