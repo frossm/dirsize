@@ -66,8 +66,8 @@ public class Main {
 		long grandTotalSize = 0L;
 		long grandTotalFiles = 0L;
 
-		// getWindowsTerminalWidth() doens't work within Eclipse. This is a quick fix or ensure you use the
-		// -c switch
+		// getWindowsTerminalWidth() doens't work within Eclipse. This is a quick fix or ensure
+		// you use the -c switch
 		if (terminalWidth < 0) {
 			Output.debugPrint("Seems to be running within Eclipse. Setting columns to 100");
 			terminalWidth = 100;
@@ -136,6 +136,8 @@ public class Main {
 					terminalWidth = Integer.parseInt(optG.getOptarg());
 					if (terminalWidth > maxColumns) {
 						terminalWidth = maxColumns;
+					} else if (terminalWidth < 60) {
+						terminalWidth = 60;
 					}
 					Output.debugPrint("Number columns set to: " + terminalWidth);
 				} catch (Exception Ex) {
@@ -275,7 +277,7 @@ public class Main {
 		Output.printColor(Ansi.Color.WHITE, "Directory" + " ".repeat(displayNameCol - 9));
 		Output.printColor(Ansi.Color.WHITE, " ".repeat(displaySizeCol - 4) + "Size");
 		Output.printColor(Ansi.Color.WHITE, " ".repeat(displayFilesCol - 5) + "Files");
-		Output.printColor(Ansi.Color.WHITE, "    SizeMap [" + Format.humanReadableBytes(sizePerSlot) + " per slot]");
+		Output.printColor(Ansi.Color.WHITE, "    SizeMap [" + Format.humanReadableBytes(sizePerSlot) + " /slot]");
 		Output.printColorln(Ansi.Color.CYAN, "\n" + "-".repeat(terminalWidth));
 
 		// Get the sorted results based on the which column the user chose (-s option)

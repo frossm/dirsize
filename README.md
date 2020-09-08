@@ -46,7 +46,7 @@ This will install the application into a sandbox where it is separate from other
 [![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/dirsize)
 
 ## Wrapup
-I'm making this freely available in the hope that others may find this useful. Please let me know if you have any issues, thoughts or suggestions for enhancements by emailing dirsize@fross.org.
+I'm making this freely available in the hope that others may find this useful. Please let me know if you have any issues, thoughts or suggestions for enhancements by mailing dirsize@fross.org.
 
 ## License
 The MIT License
