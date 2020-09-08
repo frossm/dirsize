@@ -23,16 +23,19 @@ public class Help {
 	 * Display(): Prints help in color using the JCDP library in the output module.
 	 */
 	public static void Display() {
-		Output.printColorln(Ansi.Color.YELLOW, "\n+----------------------------------------------------------------------+");
+		Output.printColorln(Ansi.Color.YELLOW, "\n+------------------------------------------------------------------------------+");
 		Output.printColorln(Ansi.Color.YELLOW, "DirSize v" + Main.VERSION + ".  "+Main.COPYRIGHT);
-		Output.printColorln(Ansi.Color.YELLOW, "+----------------------------------------------------------------------+");
+		Output.printColorln(Ansi.Color.YELLOW, "+------------------------------------------------------------------------------+");
 		Output.printColorln(Ansi.Color.WHITE, "DirSize is a tool to display directory size and file totals of subdirectories");
 		Output.printColorln(Ansi.Color.CYAN, "                https://github.com/frossm/dirsize\n");
 
 		Output.printColorln(Ansi.Color.YELLOW, "Command Line Options:");
-		Output.printColorln(Ansi.Color.WHITE, "Usage:   java -jar DirSize.jar [-D] [-h] [-?] [-b|-k|-m] [Starting Dir]\n");
+		Output.printColorln(Ansi.Color.WHITE, "Usage:    java -jar dirsize.jar [-D] [-v] [-h|?] [-e] [-d b|k|m|g|h] [-x <filename>] [Directory]\n");
 		Output.printColorln(Ansi.Color.WHITE, "   -D:  Debug Mode.  Displays extra debug output.");
 		Output.printColorln(Ansi.Color.WHITE, "        Totals will include them.");
-		Output.printColorln(Ansi.Color.WHITE, "   -?:  Display this help information");
+		Output.printColorln(Ansi.Color.WHITE, "   -v:  Display the program version and exit");
+		Output.printColorln(Ansi.Color.WHITE, "   -x filename:  Export results as a CSV file");
+		Output.printColorln(Ansi.Color.WHITE, "   -c width:  Width of output in columns");
+		Output.printColorln(Ansi.Color.WHITE, "   -h | -?:  Display this help information");
 	}
 }
