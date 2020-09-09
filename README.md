@@ -1,4 +1,4 @@
-<p align="center"> <img width="120" height = "120" src ="https://github.com/frossm/dirsize/blob/master/graphics/PostIt-512x512.jpg"> </p> 
+<p align="center"> <img width="300" height = "300" src ="https://github.com/frossm/dirsize/blob/master/graphics/PostIt-512x512.jpg"> </p> 
 
 <p align="center"> <b><i>DirSize: The Command Line Directory Reporting Tool</i></b></p>
 
