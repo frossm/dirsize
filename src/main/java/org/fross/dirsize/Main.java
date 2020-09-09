@@ -11,11 +11,12 @@ package org.fross.dirsize;
 
 import java.io.File;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.TreeMap;
 
 import org.fross.library.Debug;
 import org.fross.library.Format;
@@ -38,6 +39,7 @@ public class Main {
 	private static final int DISPLAY_PERCENT_NUMFILES = 15;
 	private static final int DISPLAY_PERCENT_SIZEMAP = 40;
 	private static final String ROOT_DIR_NAME = "[RootDir]";
+	private static final int MIN_TERMINAL_WIDTH = 60;
 
 	// Class Variables
 	protected static String VERSION;
@@ -52,8 +54,6 @@ public class Main {
 		int optionEntry;
 		String rootDir = "";
 		File[] rootMembers = {};
-		int maxColumns = org.fusesource.jansi.internal.WindowsSupport.getWindowsTerminalWidth() - 1;
-		int terminalWidth = maxColumns;
 		char sortBy = 's';	// Default is sortBy size. 'f' and 'd' are also allowed
 
 		// Define the HashMaps the scanning results. The directory name will be the key
@@ -66,8 +66,20 @@ public class Main {
 		long grandTotalSize = 0L;
 		long grandTotalFiles = 0L;
 
-		// getWindowsTerminalWidth() doens't work within Eclipse. This is a quick fix or ensure
-		// you use the -c switch
+		// Set the terminalWidth. jAnsi will get it for windows, but doesn't seem to work for Linux
+		int terminalWidth;
+		if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+			terminalWidth = org.fusesource.jansi.internal.WindowsSupport.getWindowsTerminalWidth() - 1;
+		} else if (System.getProperty("os.name").toLowerCase().contains("linux")) {
+			// TODO: determine how to handle this better. For now just set it to a rreasonable amount
+			terminalWidth = 100;
+		} else {
+			// Just set the terminalWidth to a fairly safe value
+			terminalWidth = 100;
+		}
+
+		// getWindowsTerminalWidth() doens't work within Eclipse. This is a quick fix or ensure you use the
+		// -c switch
 		if (terminalWidth < 0) {
 			Output.debugPrint("Seems to be running within Eclipse. Setting columns to 100");
 			terminalWidth = 100;
@@ -134,10 +146,8 @@ public class Main {
 			case 'c':
 				try {
 					terminalWidth = Integer.parseInt(optG.getOptarg());
-					if (terminalWidth > maxColumns) {
-						terminalWidth = maxColumns;
-					} else if (terminalWidth < 60) {
-						terminalWidth = 60;
+					if (terminalWidth < MIN_TERMINAL_WIDTH) {
+						terminalWidth = MIN_TERMINAL_WIDTH;
 					}
 					Output.debugPrint("Number columns set to: " + terminalWidth);
 				} catch (Exception Ex) {
@@ -159,6 +169,23 @@ public class Main {
 				break;
 			}
 		}
+
+		// Display some useful information about the environment if in Debug Mode
+		Output.debugPrint("--------------------------------------------------------");
+		Output.debugPrint("System Information:");
+		Output.debugPrint("  - class.path:     " + System.getProperty("java.class.path"));
+		Output.debugPrint("  - java.home:      " + System.getProperty("java.home"));
+		Output.debugPrint("  - java.vendor:    " + System.getProperty("java.vendor"));
+		Output.debugPrint("  - java.version:   " + System.getProperty("java.version"));
+		Output.debugPrint("  - os.name:        " + System.getProperty("os.name"));
+		Output.debugPrint("  - os.version:     " + System.getProperty("os.version"));
+		Output.debugPrint("  - os.arch:        " + System.getProperty("os.arch"));
+		Output.debugPrint("  - user.name:      " + System.getProperty("user.name"));
+		Output.debugPrint("  - user.home:      " + System.getProperty("user.home"));
+		Output.debugPrint("  - user.dir:       " + System.getProperty("user.dir"));
+		Output.debugPrint("  - file.separator: " + System.getProperty("file.separator"));
+		Output.debugPrint("  - library.path:   " + System.getProperty("java.library.path"));
+		Output.debugPrint("--------------------------------------------------------\n");
 
 		// If a directory was entered on the command line, validate it and set it as root. If not use the
 		// current directory as the default
@@ -198,7 +225,7 @@ public class Main {
 		}
 
 		// Display important values after options have been set
-		Output.debugPrint("\nColumns set to: " + terminalWidth);
+		Output.debugPrint("Columns set to: " + terminalWidth);
 		Output.debugPrint("Root Directory: " + rootDir);
 		Output.debugPrint("SortBy [s, f, d]: " + sortBy);
 
@@ -257,7 +284,7 @@ public class Main {
 		int displaySizeMap = (int) (terminalWidth * DISPLAY_PERCENT_SIZEMAP * .01) - 5;
 
 		Output.debugPrint("Column Widths:");
-		Output.debugPrint("  - Total Columns: " + terminalWidth);
+		Output.debugPrint("  - Terminal Width: " + terminalWidth);
 		Output.debugPrint("  - Name:  " + DISPLAY_PERCENT_NAME + "% = " + displayNameCol + " Columns");
 		Output.debugPrint("  - Files: " + DISPLAY_PERCENT_NUMFILES + "% = " + displayFilesCol + " Columns");
 		Output.debugPrint("  - Size:  " + DISPLAY_PERCENT_DIRSIZE + "% = " + displaySizeCol + " Columns");
@@ -290,11 +317,12 @@ public class Main {
 			resultMap = SizeMap.sortByValueDescending(mapFiles);
 			break;
 		case 'd':
-			// TODO: Case insensitive ordering
-			resultMap = new TreeMap<>(mapSize);
+			resultMap = SizeMap.sortByKeyAscendingCI(mapFiles);
 			break;
 		default:
-			Output.printColorln(Ansi.Color.RED, "ERROR: Could not detemine how to sort.  You should never see this...");
+			Output.printColorln(Ansi.Color.RED, "ERROR: Could not detemine how to sort.  Defaulting to Size. You should never see this...");
+			// Default to size sorting
+			resultMap = SizeMap.sortByValueDescending(mapSize);
 			break;
 		}
 
@@ -307,7 +335,14 @@ public class Main {
 			Ansi.Color bgColor, fgColor;
 			fgColor = ((colorCounter % 2 == 0) ? Ansi.Color.WHITE : Ansi.Color.DEFAULT);
 			bgColor = Ansi.Color.DEFAULT;
-			
+
+			// Set the background to another color for symbolic links
+			// Currently works well in Linux, but not in Windows
+			if (Files.isSymbolicLink(Paths.get(mapFullPath.get(key))) == true) {
+				fgColor = Ansi.Color.WHITE;
+				bgColor = Ansi.Color.MAGENTA;
+			}
+
 			if (new File(mapFullPath.get(key)).isDirectory() == true) {
 				// Name
 				String outString = String.format("%-" + displayNameCol + "s", key);

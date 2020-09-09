@@ -58,6 +58,31 @@ public class SizeMap {
 	}
 
 	/**
+	 * sortByKeyAscending(): Return a HashMap with case insensitive key sorting
+	 * 
+	 * @param hm
+	 * @return
+	 */
+	public static HashMap<String, Long> sortByKeyAscendingCI(HashMap<String, Long> hm) {
+		// Create a list from elements of HashMap
+		List<Map.Entry<String, Long>> list = new LinkedList<Map.Entry<String, Long>>(hm.entrySet());
+
+		// Sort the list
+		Collections.sort(list, new Comparator<Map.Entry<String, Long>>() {
+			public int compare(Map.Entry<String, Long> o1, Map.Entry<String, Long> o2) {
+				return (o1.getKey().toLowerCase()).compareTo(o2.getKey().toLowerCase());
+			}
+		});
+
+		// put data from sorted list to hash map
+		HashMap<String, Long> temp = new LinkedHashMap<String, Long>();
+		for (Map.Entry<String, Long> aa : list) {
+			temp.put(aa.getKey(), aa.getValue());
+		}
+		return temp;
+	}
+
+	/**
 	 * sortByValueAscending(): Return a Map sorted by values
 	 * 
 	 * @param hm
