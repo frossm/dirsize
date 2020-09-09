@@ -33,9 +33,11 @@ public class Help {
 		Output.printColorln(Ansi.Color.YELLOW, "\nCommand Line Options:");
 		Output.printColorln(Ansi.Color.WHITE, "Usage:    java -jar dirsize.jar [-D] [-x <filename>] [-ss|-sf|-sd] [-c <width>] [-v] [-h|?] [Directory]\n");
 		Output.printColorln(Ansi.Color.WHITE, "   -D:   Debug Mode.  Displays extra debug output");
+		Output.printColorln(Ansi.Color.WHITE, "   -e:   Error display.  Display items that couldn't be scanned");
 		Output.printColorln(Ansi.Color.WHITE, "   -ss:  Sort output by directory size [Default]d");
 		Output.printColorln(Ansi.Color.WHITE, "   -sf:  Sort output by file counts");
 		Output.printColorln(Ansi.Color.WHITE, "   -sd:  Sort output by directory names");
+		
 		Output.printColorln(Ansi.Color.WHITE, "   -v:   Display the program version and exit");
 		Output.printColorln(Ansi.Color.WHITE, "   -x filename: Export the results as a CSV to the file provided");
 		Output.printColorln(Ansi.Color.WHITE, "   -c width:    Width of output in columns");

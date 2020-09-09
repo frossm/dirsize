@@ -24,10 +24,9 @@ import org.fusesource.jansi.Ansi;
  * @author michael.d.fross
  */
 public class ScanDir {
-
 	public long[] ScanDirectory(File DirToScan) {
 		// Accumulating totals. Element [0]=Total Size. Element [1]=Total Files.
-		long[] LocalTotals = { 0, 0, 0 };
+		long[] LocalTotals = { 0, 0 };
 
 		// Holds the results of a recursive call
 		long[] SubTotals;
@@ -41,7 +40,7 @@ public class ScanDir {
 			// Loop through directories and files, counting size and numbers
 			for (int i = 0; i < DirContents.length; i++) {
 				if (DirContents[i].isDirectory() == true) {
-					// Subdirectory Found. Scan it!
+					// Subdirectory Found - Scan
 					SubTotals = new ScanDir().ScanDirectory(DirContents[i]);
 					LocalTotals[0] += SubTotals[0];
 					LocalTotals[1] += SubTotals[1];
@@ -51,16 +50,17 @@ public class ScanDir {
 					LocalTotals[1]++;
 				}
 			}
-		} catch (NullPointerException Ex) {
-			Output.printColorln(Ansi.Color.RED, "SCAN ERROR: " + DirToScan.getName());
-			LocalTotals[2] += 1;
+		} catch (NullPointerException ex) {
+			Output.debugPrint("SCAN ERROR: '" + DirToScan.getAbsolutePath() + "'");
+			Main.errorList.put(DirToScan.getAbsolutePath(), ex.getMessage());
 
 		} catch (Exception Ex) {
 			Output.printColorln(Ansi.Color.RED, "ERROR Scanning " + DirToScan.toString() + "\n" + Ex.getMessage());
 		}
 
-		// Return back to the calling function an array with [0]Size totals and [1]File
-		// totals
+		// Return back to the calling function an array with Size & File totals
 		return (LocalTotals);
-	}
-}
+
+	} // End Method
+
+} // End Class

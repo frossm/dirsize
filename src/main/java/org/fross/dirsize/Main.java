@@ -44,6 +44,7 @@ public class Main {
 	// Class Variables
 	protected static String VERSION;
 	protected static String COPYRIGHT;
+	protected static HashMap<String, String> errorList = new HashMap<String, String>();
 
 	/**
 	 * Main(): Main program execution entry point
@@ -55,6 +56,7 @@ public class Main {
 		String rootDir = "";
 		File[] rootMembers = {};
 		char sortBy = 's';	// Default is sortBy size. 'f' and 'd' are also allowed
+		boolean errorDisplay = false;
 
 		// Define the HashMaps the scanning results. The directory name will be the key
 		HashMap<String, Long> mapSize = new HashMap<String, Long>();
@@ -103,7 +105,7 @@ public class Main {
 		Output.printColorln(Ansi.Color.CYAN, COPYRIGHT + "\n");
 
 		// Process Command Line Options and set flags where needed
-		Getopt optG = new Getopt("DirSize", args, "Dvx:s:c:?h");
+		Getopt optG = new Getopt("DirSize", args, "Dvx:s:ec:?h");
 		while ((optionEntry = optG.getopt()) != -1) {
 			switch (optionEntry) {
 			// Debug Mode
@@ -140,6 +142,11 @@ public class Main {
 					Output.fatalError("Sort by option (-s) not recognized: '" + sortBy + "' See help", 1);
 					break;
 				}
+				break;
+
+			// Error Display flag
+			case 'e':
+				errorDisplay = true;
 				break;
 
 			// Sets the width in columns of the output
@@ -294,10 +301,10 @@ public class Main {
 		// sizePerSlot is the file size per "asterisk"
 		long sizePerSlot = (SizeMap.queryMax(mapSize, rootMembers) - SizeMap.queryMin(mapSize, rootMembers)) / displaySizeMap;
 
-		Output.debugPrint("Slots in the map: " + displaySizeMap);
-		Output.debugPrint("Max Size found: " + SizeMap.queryMax(mapSize, rootMembers));
-		Output.debugPrint("Min Size found: " + SizeMap.queryMin(mapSize, rootMembers));
-		Output.debugPrint("Size Per slot:  " + sizePerSlot);
+		Output.debugPrint("Slots in the SizeMap: " + displaySizeMap);
+		Output.debugPrint("Max Size found:       " + SizeMap.queryMax(mapSize, rootMembers));
+		Output.debugPrint("Min Size found:       " + SizeMap.queryMin(mapSize, rootMembers));
+		Output.debugPrint("Size Per slot:        " + sizePerSlot);
 
 		// Display the output header
 		Output.printColorln(Ansi.Color.CYAN, "-".repeat(terminalWidth));
@@ -344,7 +351,7 @@ public class Main {
 			}
 
 			if (new File(mapFullPath.get(key)).isDirectory() == true) {
-				// Name
+				// Directory Name
 				String outString = String.format("%-" + displayNameCol + "s", key);
 				Output.printColor(fgColor, bgColor, outString);
 
@@ -387,6 +394,24 @@ public class Main {
 		float filesPerMS = grandTotalFiles / timeDelta;
 		outString = String.format("\nScanning Time: %,d ms (%,.3f files/ms)", (int) timeDelta, filesPerMS);
 		Output.printColorln(Ansi.Color.CYAN, "\n" + outString);
+
+		// If Error Display (-e) is enabled show the errors
+		if (errorDisplay == true) {
+			// Display the output header
+			Output.printColorln(Ansi.Color.RED, "\n-Scanning Errors" + "-".repeat(terminalWidth - 16));
+			Output.printColorln(Ansi.Color.WHITE, "Directory or File Name");
+			Output.printColorln(Ansi.Color.RED, "-".repeat(terminalWidth));
+
+			// Display the contents of the error list if any
+			if (errorList.isEmpty()) {
+				Output.printColorln(Ansi.Color.RED, "There are no scan errors");
+			} else {
+				for (Map.Entry<String, String> i : errorList.entrySet()) {
+					Output.printColorln(Ansi.Color.RED, i.getKey());
+				}
+			}
+
+		}
 
 	} // END MAIN METHOD
 
