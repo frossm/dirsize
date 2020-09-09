@@ -305,7 +305,7 @@ public class Main {
 
 			// Color swapper to alternate the colors of each output line
 			Ansi.Color bgColor, fgColor;
-			fgColor = ((colorCounter % 2 == 0) ? Ansi.Color.WHITE : Ansi.Color.CYAN);
+			fgColor = ((colorCounter % 2 == 0) ? Ansi.Color.WHITE : Ansi.Color.DEFAULT);
 			bgColor = Ansi.Color.DEFAULT;
 			
 			if (new File(mapFullPath.get(key)).isDirectory() == true) {
