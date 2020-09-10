@@ -421,19 +421,14 @@ public class Main {
 		// If Error Display is enabled and we have some errors, show them
 		if (errorDisplayFlag == true && errorList.isEmpty() != true) {
 			// Display the output header
-			Output.printColorln(Ansi.Color.RED, "-".repeat(terminalWidth));
+			Output.printColorln(Ansi.Color.RED, "\n" + "-".repeat(terminalWidth));
 			Output.printColorln(Ansi.Color.RED, "Scanning Errors");
 			Output.printColorln(Ansi.Color.RED, "-".repeat(terminalWidth));
 
-			// Display the contents of the error list if any
-			if (errorList.isEmpty()) {
-				Output.printColorln(Ansi.Color.RED, "There are no scan errors");
-			} else {
-				for (Map.Entry<String, String> i : errorList.entrySet()) {
-					Output.printColorln(Ansi.Color.RED, i.getKey());
-				}
+			// Display the contents of the error list
+			for (Map.Entry<String, String> i : errorList.entrySet()) {
+				Output.printColorln(Ansi.Color.RED, i.getKey());
 			}
-
 		}
 
 	} // END MAIN METHOD
