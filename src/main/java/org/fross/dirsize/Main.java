@@ -282,7 +282,7 @@ public class Main {
 
 		// Stop the spinner
 		spinner.interrupt();
-		Output.printColorln(Ansi.Color.WHITE, " [Complete]");
+		Output.printColorln(Ansi.Color.WHITE, "[Complete]");
 
 		// Determine number of columns based on the percentage constants
 		int displayNameCol = (int) (terminalWidth * DISPLAY_PERCENT_NAME * .01);

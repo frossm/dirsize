@@ -37,7 +37,7 @@ public class Spinner extends Thread {
 				Thread.currentThread().interrupt();
 			}
 		}
-
+		System.out.println(" ");
 	}
 
 	/**
@@ -45,11 +45,11 @@ public class Spinner extends Thread {
 	 * 
 	 */
 	public void displaySpinner() {
-		// Move cursor back one spot
-		System.out.print(ansi().cursorLeft(1));
-
 		// Display the Spinner
 		Output.printColor(Ansi.Color.YELLOW, spinnerSymbols[currentSpinner]);
+		
+		// Move cursor back one spot
+		System.out.print(ansi().cursorLeft(1));
 
 		// Advance the spinner to the next symbol
 		currentSpinner++;
