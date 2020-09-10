@@ -24,7 +24,7 @@ One of the interesting things about DirSize is it shows a visual representation 
 |-ss| Sort output by the directory sizes.  This is the default|
 |-sf| Sort output by the number of files|
 |-sd| Sort output by directory name|
-|-e| Error display.  With this switch enabled, show a list of files and directories that had errors during the scanning process|
+|-e| Suppress error display.  Normally, issues with scanning are display at the end of the output.  With this switch enabled, this list will be suppressed.  Scanning errors usually happen when DirSize does not have permission to a file or folder although there can be other reasons|
 |-c Width|Set By default, DirSize uses the full console width.  However, you can change this.  Useful if you have a very wide console display|
 |-v| Simply display the program version and exit|
 |-h \| -?| Display the program help|

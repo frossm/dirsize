@@ -56,7 +56,7 @@ public class Main {
 		String rootDir = "";
 		File[] rootMembers = {};
 		char sortBy = 's';	// Default is sortBy size. 'f' and 'd' are also allowed
-		boolean errorDisplay = false;
+		boolean errorDisplayFlag = true;
 		int terminalWidth = 90;
 
 		// Define the HashMaps the scanning results. The directory name will be the key
@@ -146,7 +146,7 @@ public class Main {
 
 			// Error Display flag
 			case 'e':
-				errorDisplay = true;
+				errorDisplayFlag = false;
 				break;
 
 			// Sets the width in columns of the output
@@ -235,6 +235,7 @@ public class Main {
 		Output.debugPrint("Columns set to: " + terminalWidth);
 		Output.debugPrint("Root Directory: " + rootDir);
 		Output.debugPrint("SortBy [s, f, d]: " + sortBy);
+		Output.debugPrint("Surpress Error Display: " + errorDisplayFlag);
 
 		// Prime the hash maps that will store the results
 		mapSize.put(ROOT_DIR_NAME, (long) 0);
@@ -417,11 +418,11 @@ public class Main {
 		outString = String.format("\nScanning Time: %,d ms (%,.3f files/ms)", (int) timeDelta, filesPerMS);
 		Output.printColorln(Ansi.Color.CYAN, "\n" + outString);
 
-		// If Error Display (-e) is enabled show the errors
-		if (errorDisplay == true) {
+		// If Error Display is enabled and we have some errors, show them
+		if (errorDisplayFlag == true && errorList.isEmpty() != true) {
 			// Display the output header
-			Output.printColorln(Ansi.Color.RED, "\n-Scanning Errors" + "-".repeat(terminalWidth - 16));
-			Output.printColorln(Ansi.Color.WHITE, "Directory or File Name");
+			Output.printColorln(Ansi.Color.RED, "-".repeat(terminalWidth));
+			Output.printColorln(Ansi.Color.RED, "Scanning Errors");
 			Output.printColorln(Ansi.Color.RED, "-".repeat(terminalWidth));
 
 			// Display the contents of the error list if any
