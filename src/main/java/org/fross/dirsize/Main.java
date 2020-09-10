@@ -37,7 +37,7 @@ public class Main {
 	private static final int DISPLAY_PERCENT_NAME = 30;
 	private static final int DISPLAY_PERCENT_DIRSIZE = 15;
 	private static final int DISPLAY_PERCENT_NUMFILES = 15;
-	private static final int DISPLAY_PERCENT_SIZEMAP = 40;
+	private static final int DISPLAY_PERCENT_VISUALMAP = 40;
 	private static final String ROOT_DIR_NAME = "[RootDir]";
 	private static final int MIN_TERMINAL_WIDTH = 60;
 
@@ -57,6 +57,7 @@ public class Main {
 		File[] rootMembers = {};
 		char sortBy = 's';	// Default is sortBy size. 'f' and 'd' are also allowed
 		boolean errorDisplay = false;
+		int terminalWidth = 90;
 
 		// Define the HashMaps the scanning results. The directory name will be the key
 		HashMap<String, Long> mapSize = new HashMap<String, Long>();
@@ -69,19 +70,18 @@ public class Main {
 		long grandTotalFiles = 0L;
 
 		// Set the terminalWidth. jAnsi will get it for windows, but doesn't seem to work for Linux
-		int terminalWidth;
 		if (System.getProperty("os.name").toLowerCase().contains("windows")) {
 			terminalWidth = org.fusesource.jansi.internal.WindowsSupport.getWindowsTerminalWidth() - 1;
 		} else if (System.getProperty("os.name").toLowerCase().contains("linux")) {
-			// TODO: determine how to handle this better. For now just set it to a rreasonable amount
+			// TODO: determine how to handle this better. For now just set it to a reasonable amount
 			terminalWidth = 90;
 		} else {
 			// Just set the terminalWidth to a fairly safe value
 			terminalWidth = 90;
 		}
 
-		// getWindowsTerminalWidth() doens't work within Eclipse. This is a quick fix or ensure you use the
-		// -c switch
+		// getWindowsTerminalWidth() doesn't seem to work within Eclipse
+		// This is a quick fix or ensure you use the -c switch as an argument
 		if (terminalWidth < 0) {
 			Output.debugPrint("Seems to be running within Eclipse. Setting columns to 100");
 			terminalWidth = 100;
@@ -245,7 +245,6 @@ public class Main {
 
 		// Create the spinner
 		Spinner spinner = new Spinner();
-		// spinner.displaySpinner();
 		spinner.start();
 
 		// Enable the benchmark timer
@@ -288,30 +287,43 @@ public class Main {
 		int displayNameCol = (int) (terminalWidth * DISPLAY_PERCENT_NAME * .01);
 		int displayFilesCol = (int) (terminalWidth * DISPLAY_PERCENT_NUMFILES * .01);
 		int displaySizeCol = (int) (terminalWidth * DISPLAY_PERCENT_DIRSIZE * .01);
-		int displaySizeMap = (int) (terminalWidth * DISPLAY_PERCENT_SIZEMAP * .01) - 5;
+		int displayVisualMap = (int) (terminalWidth * DISPLAY_PERCENT_VISUALMAP * .01) - 5;
 
 		Output.debugPrint("Column Widths:");
 		Output.debugPrint("  - Terminal Width: " + terminalWidth);
 		Output.debugPrint("  - Name:  " + DISPLAY_PERCENT_NAME + "% = " + displayNameCol + " Columns");
 		Output.debugPrint("  - Files: " + DISPLAY_PERCENT_NUMFILES + "% = " + displayFilesCol + " Columns");
 		Output.debugPrint("  - Size:  " + DISPLAY_PERCENT_DIRSIZE + "% = " + displaySizeCol + " Columns");
-		Output.debugPrint("  - Map:   " + DISPLAY_PERCENT_SIZEMAP + "% = " + displaySizeMap + " Columns");
+		Output.debugPrint("  - Map:   " + DISPLAY_PERCENT_VISUALMAP + "% = " + displayVisualMap + " Columns");
 
-		// Determine the SizeMap, which is a relative difference graphic between directories
-		// sizePerSlot is the file size per "asterisk"
-		long sizePerSlot = (SizeMap.queryMax(mapSize, rootMembers) - SizeMap.queryMin(mapSize, rootMembers)) / displaySizeMap;
+		// Determine the size of the VisualMap, which is a relative difference graphic between directories
+		// unitsPerSlot is the FileSize of FileNumber per asterisk
+		long unitsPerSlot = 0;
+		if (sortBy == 'f') {
+			// FilesMap
+			unitsPerSlot = (SizeMap.queryMax(mapFiles, rootMembers) - SizeMap.queryMin(mapFiles, rootMembers)) / displayVisualMap;
+		} else {
+			// SizeMap
+			unitsPerSlot = (SizeMap.queryMax(mapSize, rootMembers) - SizeMap.queryMin(mapSize, rootMembers)) / displayVisualMap;
+		}
 
-		Output.debugPrint("Slots in the SizeMap: " + displaySizeMap);
+		Output.debugPrint("Slots in VisualMap: " + displayVisualMap);
 		Output.debugPrint("Max Size found:       " + SizeMap.queryMax(mapSize, rootMembers));
 		Output.debugPrint("Min Size found:       " + SizeMap.queryMin(mapSize, rootMembers));
-		Output.debugPrint("Size Per slot:        " + sizePerSlot);
+		Output.debugPrint("Max Files found:       " + SizeMap.queryMax(mapFiles, rootMembers));
+		Output.debugPrint("Min Files found:       " + SizeMap.queryMin(mapFiles, rootMembers));
+		Output.debugPrint("Units Per slot:        " + unitsPerSlot);
 
 		// Display the output header
 		Output.printColorln(Ansi.Color.CYAN, "-".repeat(terminalWidth));
 		Output.printColor(Ansi.Color.WHITE, "Directory" + " ".repeat(displayNameCol - 9));
 		Output.printColor(Ansi.Color.WHITE, " ".repeat(displaySizeCol - 4) + "Size");
 		Output.printColor(Ansi.Color.WHITE, " ".repeat(displayFilesCol - 5) + "Files");
-		Output.printColor(Ansi.Color.WHITE, "    SizeMap [" + Format.humanReadableBytes(sizePerSlot) + " /slot]");
+		if (sortBy == 'f') {
+			Output.printColor(Ansi.Color.WHITE, "    Files Map [" + unitsPerSlot + " files/slot]");
+		} else {
+			Output.printColor(Ansi.Color.WHITE, "    Size Map [" + Format.humanReadableBytes(unitsPerSlot) + "/slot]");
+		}
 		Output.printColorln(Ansi.Color.CYAN, "\n" + "-".repeat(terminalWidth));
 
 		// Get the sorted results based on the which column the user chose (-s option)
@@ -365,9 +377,18 @@ public class Main {
 				Output.printColor(fgColor, bgColor, outString);
 
 				// Size Map
-				int numAsterisk = (int) (mapSize.get(key) / sizePerSlot);
-				if (numAsterisk > displaySizeMap) numAsterisk = displaySizeMap;
-				int numDashes = displaySizeMap - numAsterisk;
+				int numAsterisk;
+				if (sortBy == 'f') {
+					numAsterisk = (int) (mapFiles.get(key) / unitsPerSlot);
+				} else {
+					numAsterisk = (int) (mapSize.get(key) / unitsPerSlot);
+				}
+
+				// Quick safety check
+				if (numAsterisk > displayVisualMap)
+					numAsterisk = displayVisualMap;
+
+				int numDashes = displayVisualMap - numAsterisk;
 				Output.printColor(Ansi.Color.WHITE, "    [");
 				Output.printColor(Ansi.Color.YELLOW, "*".repeat(numAsterisk));
 				Output.printColor(Ansi.Color.CYAN, "-".repeat(numDashes));
