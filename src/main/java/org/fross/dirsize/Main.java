@@ -74,10 +74,10 @@ public class Main {
 			terminalWidth = org.fusesource.jansi.internal.WindowsSupport.getWindowsTerminalWidth() - 1;
 		} else if (System.getProperty("os.name").toLowerCase().contains("linux")) {
 			// TODO: determine how to handle this better. For now just set it to a rreasonable amount
-			terminalWidth = 100;
+			terminalWidth = 90;
 		} else {
 			// Just set the terminalWidth to a fairly safe value
-			terminalWidth = 100;
+			terminalWidth = 90;
 		}
 
 		// getWindowsTerminalWidth() doens't work within Eclipse. This is a quick fix or ensure you use the
@@ -366,6 +366,7 @@ public class Main {
 
 				// Size Map
 				int numAsterisk = (int) (mapSize.get(key) / sizePerSlot);
+				if (numAsterisk > displaySizeMap) numAsterisk = displaySizeMap;
 				int numDashes = displaySizeMap - numAsterisk;
 				Output.printColor(Ansi.Color.WHITE, "    [");
 				Output.printColor(Ansi.Color.YELLOW, "*".repeat(numAsterisk));
