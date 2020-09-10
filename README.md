@@ -51,9 +51,17 @@ I would encourage anyone with a supported Linux platform to use snap. See Snapcr
 
 sudo snap install dirsize (Assuming snapd is installed)
 
-This will install the application into a sandbox where it is separate from other applications. I do want to look at packaging it via Flatpak as well, but my understanding is that Maven is not well supported. However, I need to do more investigation.
-
 [![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/dirsize)
+
+**Note:**
+
+Snap applications run in a container and by default do not have rights to see files on the filesystem outside of this 'sandbox.'  In order to use DirSize, it needs to be able see file names and sized.  The interface ``system-backup`` gives it that right.  Therefore, to use the system, you need to allow it by executing:
+
+``sudo snap connect dirsize:system-backup``
+
+If you change your mind, you can remove this permission by executing:
+
+``sudo snap disconnect dirsize:system-backup``
 
 ## Wrapup
 I'm making this freely available in the hope that others may find this useful. Please let me know if you have any issues, thoughts or suggestions for enhancements by mailing dirsize@fross.org.
