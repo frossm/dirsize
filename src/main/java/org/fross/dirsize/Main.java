@@ -377,12 +377,17 @@ public class Main {
 				outString = String.format("%" + displayFilesCol + "s", df.format((double) mapFiles.get(key)));
 				Output.printColor(fgColor, bgColor, outString);
 
-				// Size Map
+				// Size/Files Map
 				int numAsterisk;
-				if (sortBy == 'f') {
-					numAsterisk = (int) (mapFiles.get(key) / unitsPerSlot);
-				} else {
-					numAsterisk = (int) (mapSize.get(key) / unitsPerSlot);
+				try {
+					if (sortBy == 'f') {
+						numAsterisk = (int) (mapFiles.get(key) / unitsPerSlot);
+					} else {
+						numAsterisk = (int) (mapSize.get(key) / unitsPerSlot);
+					}
+				} catch (ArithmeticException ex) {
+					// If there is an empty directory and no files, unitsPerSlot will be zero. Catch this.
+					numAsterisk = 0;
 				}
 
 				// Quick safety check
