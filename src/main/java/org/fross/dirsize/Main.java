@@ -122,7 +122,8 @@ public class Main {
 
 			// Export to CSV File
 			case 'x':
-				Output.printColorln(Ansi.Color.RED, "Not Yet Implemented...");
+				Output.printColorln(Ansi.Color.RED, "Export Not Yet Implemented...");
+				System.exit(0);
 				break;
 
 			// Sort output by...
