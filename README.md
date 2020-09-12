@@ -45,6 +45,8 @@ Display a file number sorted report from the jimbob's home dir using 100 columns
 Output the directory report of `/usr` into a CSV file in my home directory
 
 ## SNAP
+[![dirsize](https://snapcraft.io//dirsize/badge.svg)](https://snapcraft.io/dirsize)
+
 I would encourage anyone with a supported Linux platform to use snap. See Snapcraft Homepage for more information. You can download, install, and keep DirSize up to date automatically by installing the snap. You don't even have to have java as it's bundled within the snap virtual machine. Install via:
 
 sudo snap install dirsize (Assuming snapd is installed)
