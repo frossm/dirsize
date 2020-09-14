@@ -10,6 +10,8 @@
 package org.fross.dirsize;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -58,6 +60,7 @@ public class Main {
 		char sortBy = 's';	// Default is sortBy size. 'f' and 'd' are also allowed
 		boolean errorDisplayFlag = true;
 		int terminalWidth = 90;
+		File exportFile = null;
 
 		// Define the HashMaps the scanning results. The directory name will be the key
 		HashMap<String, Long> mapSize = new HashMap<String, Long>();
@@ -122,8 +125,14 @@ public class Main {
 
 			// Export to CSV File
 			case 'x':
-				Output.printColorln(Ansi.Color.RED, "Export Not Yet Implemented...");
-				System.exit(0);
+				try {
+					exportFile = new File(optG.getOptarg());
+					if (exportFile.createNewFile() == false) {
+						Output.fatalError("Could not create file: '" + exportFile + "'", 4);
+					}
+				} catch (IOException ex) {
+					Output.fatalError("Could not create file: '" + exportFile + "'", 4);
+				}
 				break;
 
 			// Sort output by...
@@ -237,6 +246,11 @@ public class Main {
 		Output.debugPrint("Root Directory: " + rootDir);
 		Output.debugPrint("SortBy [s, f, d]: " + sortBy);
 		Output.debugPrint("Surpress Error Display: " + errorDisplayFlag);
+		try {
+			Output.debugPrint("Export Filename:  " + exportFile.getName());
+		} catch (NullPointerException ex) {
+			// Guess we're not exporting - ignore
+		}
 
 		// Prime the hash maps that will store the results
 		mapSize.put(ROOT_DIR_NAME, (long) 0);
@@ -349,6 +363,7 @@ public class Main {
 
 		// Display the output
 		int colorCounter = 0;
+
 		for (Map.Entry<String, Long> i : resultMap.entrySet()) {
 			String key = i.getKey();
 
@@ -435,6 +450,31 @@ public class Main {
 			for (Map.Entry<String, String> i : errorList.entrySet()) {
 				Output.printColorln(Ansi.Color.RED, i.getKey());
 			}
+		}
+
+		// Export the results to a CSV file if user requested an export
+		try {
+			if (exportFile.canWrite()) {
+				FileWriter exportFW;
+				try {
+					exportFW = new FileWriter(exportFile);
+					for (Map.Entry<String, Long> i : resultMap.entrySet()) {
+						String key = i.getKey();
+						exportFW.append("\"" + key + "\",");
+						exportFW.append("\"" + mapSize.get(key) + "\",");
+						exportFW.append("\"" + mapFiles.get(key) + "\"");
+						exportFW.append("\n");
+					}
+					exportFW.flush();
+					exportFW.close();
+
+					Output.printColorln(Ansi.Color.CYAN, "\nExport Completed to file: " + exportFile.getAbsolutePath());
+				} catch (IOException ex) {
+					Output.printColorln(Ansi.Color.RED, "Error writing to export file: " + ex.getMessage());
+				}
+			}
+		} catch (Exception ex) {
+			// We're not exporting - ignore
 		}
 
 	} // END MAIN METHOD
