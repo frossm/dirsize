@@ -188,21 +188,7 @@ public class Main {
 		}
 
 		// Display some useful information about the environment if in Debug Mode
-		Output.debugPrint("--------------------------------------------------------");
-		Output.debugPrint("System Information:");
-		Output.debugPrint("  - class.path:     " + System.getProperty("java.class.path"));
-		Output.debugPrint("  - java.home:      " + System.getProperty("java.home"));
-		Output.debugPrint("  - java.vendor:    " + System.getProperty("java.vendor"));
-		Output.debugPrint("  - java.version:   " + System.getProperty("java.version"));
-		Output.debugPrint("  - os.name:        " + System.getProperty("os.name"));
-		Output.debugPrint("  - os.version:     " + System.getProperty("os.version"));
-		Output.debugPrint("  - os.arch:        " + System.getProperty("os.arch"));
-		Output.debugPrint("  - user.name:      " + System.getProperty("user.name"));
-		Output.debugPrint("  - user.home:      " + System.getProperty("user.home"));
-		Output.debugPrint("  - user.dir:       " + System.getProperty("user.dir"));
-		Output.debugPrint("  - file.separator: " + System.getProperty("file.separator"));
-		Output.debugPrint("  - library.path:   " + System.getProperty("java.library.path"));
-		Output.debugPrint("--------------------------------------------------------\n");
+		Debug.displaySysInfo();
 
 		// If a directory was entered on the command line, validate it and set it as root. If not use the
 		// current directory as the default
