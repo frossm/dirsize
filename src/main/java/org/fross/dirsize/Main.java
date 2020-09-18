@@ -429,7 +429,7 @@ public class Main {
 		if (errorDisplayFlag == true && errorList.isEmpty() != true) {
 			// Display the output header
 			Output.printColorln(Ansi.Color.RED, "\n" + "-".repeat(terminalWidth));
-			Output.printColorln(Ansi.Color.RED, "Scanning Errors");
+			Output.printColorln(Ansi.Color.RED, "Scanning Errors  [Use -e to supress]");
 			Output.printColorln(Ansi.Color.RED, "-".repeat(terminalWidth));
 
 			// Display the contents of the error list
@@ -460,7 +460,7 @@ public class Main {
 				}
 			}
 		} catch (Exception ex) {
-			// We're not exporting - ignore
+			// Looks like we are not exporting - ignore
 		}
 
 	} // END MAIN METHOD
