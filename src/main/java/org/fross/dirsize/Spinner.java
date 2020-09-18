@@ -23,7 +23,7 @@ public class Spinner extends Thread {
 	int currentSpinner = 0;
 
 	/**
-	 * run(): Overrides threads run() thread interface and will execute when the thread starts
+	 * run(): Overrides Thread run() method interface and is the main thread execute loop
 	 */
 	public void run() {
 		// Keep calling the update spinner until the thread is interrupted
@@ -31,12 +31,15 @@ public class Spinner extends Thread {
 			// Spin the spinner
 			displaySpinner();
 
+			// Delay before next thread symbol is displayed
 			try {
 				TimeUnit.MILLISECONDS.sleep(SPINNER_DELAY);
 			} catch (InterruptedException ex) {
 				Thread.currentThread().interrupt();
 			}
 		}
+
+		// Erase the last spinner symbol character
 		System.out.println(" ");
 	}
 
@@ -47,7 +50,7 @@ public class Spinner extends Thread {
 	public void displaySpinner() {
 		// Display the Spinner
 		Output.printColor(Ansi.Color.YELLOW, spinnerSymbols[currentSpinner]);
-		
+
 		// Move cursor back one spot
 		System.out.print(ansi().cursorLeft(1));
 
@@ -55,7 +58,7 @@ public class Spinner extends Thread {
 		currentSpinner++;
 
 		// Loop it back around when we hit the end
-		if (currentSpinner >= 4) {
+		if (currentSpinner >= spinnerSymbols.length) {
 			currentSpinner = 0;
 		}
 	}
