@@ -246,7 +246,7 @@ public class Main {
 		Output.printColor(Ansi.Color.WHITE, "Scanning " + rootDir + ":  ");
 
 		// Create the spinner
-		Spinner spinner = new Spinner();
+		Spinner2 spinner = new Spinner2();
 		spinner.start();
 
 		// Enable the benchmark timer
