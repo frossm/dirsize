@@ -23,13 +23,13 @@ public class Spinner extends Thread {
 	int currentSpinner = 0;
 
 	/**
-	 * run(): Overrides Thread run() method interface and is the main thread execute loop
+	 * run(): Overrides Thread run() method interface and is the main thread execution loop
 	 */
 	public void run() {
 		// Keep calling the update spinner until the thread is interrupted
 		while (Thread.currentThread().isInterrupted() == false) {
 			// Spin the spinner
-			displaySpinner();
+			spinSpinner();
 
 			// Delay before next thread symbol is displayed
 			try {
@@ -47,7 +47,7 @@ public class Spinner extends Thread {
 	 * displaySpinner(): Show the spinner symbol and advance to the next index
 	 * 
 	 */
-	public void displaySpinner() {
+	public void spinSpinner() {
 		// Display the Spinner
 		Output.printColor(Ansi.Color.YELLOW, spinnerSymbols[currentSpinner]);
 

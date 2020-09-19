@@ -29,7 +29,7 @@ public class Spinner2 extends Thread {
 	int ballDirection = 1;
 
 	/**
-	 * run(): Overrides Thread run() method interface and is the main thread execute loop
+	 * run(): Overrides Thread run() method interface and is the main thread execution loop
 	 */
 	public void run() {
 		// Display the left wall
@@ -38,7 +38,7 @@ public class Spinner2 extends Thread {
 		// Keep calling the update spinner until the thread is interrupted
 		while (Thread.currentThread().isInterrupted() == false) {
 			// Bounce the ball
-			displaySpinner();
+			bounceBall();
 
 			// Delay before next thread symbol is displayed
 			try {
@@ -53,8 +53,8 @@ public class Spinner2 extends Thread {
 	 * displaySpinner(): Show the spinner symbol and advance to the next index
 	 * 
 	 */
-	public void displaySpinner() {
-		// Display the bouncy ball
+	public void bounceBall() {
+		// Display the bouncy ball and right wall
 		System.out.print(" ".repeat(ballPosition));
 		Output.printColor(Ansi.Color.YELLOW, "o");
 		System.out.print(" ".repeat(NUM_BALL_SLOTS - ballPosition));
@@ -63,8 +63,9 @@ public class Spinner2 extends Thread {
 		// Move cursor back
 		System.out.print(ansi().cursorLeft(NUM_BALL_SLOTS + 2));
 
-		// Ball moving to the left (positive direction)
+		// Determine next ball location
 		if (ballDirection > 0) {
+			// Ball moving to the left (positive direction)
 			ballPosition++;
 			if (ballPosition >= NUM_BALL_SLOTS)
 				ballDirection *= -1;
