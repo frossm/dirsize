@@ -243,7 +243,7 @@ public class Main {
 		mapFiles.put(ROOT_DIR_NAME, (long) 0);
 		mapFullPath.put(ROOT_DIR_NAME, rootDir);
 
-		Output.printColor(Ansi.Color.WHITE, "Scanning " + rootDir + ":  ");
+		Output.printColor(Ansi.Color.WHITE, "Scanning " + rootDir + ": ");
 
 		// Create the spinner
 		Spinner2 spinner = new Spinner2();

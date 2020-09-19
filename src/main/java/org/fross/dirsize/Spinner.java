@@ -44,7 +44,7 @@ public class Spinner extends Thread {
 	}
 
 	/**
-	 * displaySpinner(): Show the spinner symbol and advance to the next index
+	 * spinSpinner(): Show the spinner symbol and advance to the next index
 	 * 
 	 */
 	public void spinSpinner() {
