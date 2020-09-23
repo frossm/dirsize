@@ -39,8 +39,6 @@
 	</properties>
 
 	<build>
-		<sourceDirectory>src</sourceDirectory>
-
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
@@ -51,12 +49,20 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.0</version>
+				<version>3.8.1</version>
 				<configuration>
 					<release>${maven.compiler.release}</release>
 				</configuration>
 			</plugin>
 
+			<!-- JUnit Testing -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0-M3</version>
+			</plugin>
+
+			<!-- Compile into a "FatJar" containing all dependencies -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
@@ -115,7 +121,7 @@
 			</snapshots>
 		</repository>
 	</repositories>
-	
+
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/gnu.getopt/java-getopt -->
 		<dependency>
@@ -129,6 +135,14 @@
 			<groupId>org.fusesource.jansi</groupId>
 			<artifactId>jansi</artifactId>
 			<version>1.18</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>5.7.0</version>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
