@@ -103,10 +103,6 @@ public class Main {
 			Output.fatalError("Unable to read property file '" + PROPERTIES_FILE + "'", 2);
 		}
 
-		// Show program information
-		Output.printColorln(Ansi.Color.CYAN, "DirSize v" + VERSION);
-		Output.printColorln(Ansi.Color.CYAN, COPYRIGHT + "\n");
-
 		// Process Command Line Options and set flags where needed
 		Getopt optG = new Getopt("DirSize", args, "Dvx:s:ec:?h");
 		while ((optionEntry = optG.getopt()) != -1) {
@@ -118,8 +114,8 @@ public class Main {
 
 			// Display Version and Exit
 			case 'v':
-				Output.println("DirSize Version: " + VERSION);
-				Output.println(COPYRIGHT);
+				Output.printColorln(Ansi.Color.CYAN, "DirSize v" + VERSION);
+				Output.printColorln(Ansi.Color.CYAN, COPYRIGHT);
 				System.exit(0);
 				break;
 
@@ -186,6 +182,10 @@ public class Main {
 				break;
 			}
 		}
+
+		// Show program information
+		Output.printColorln(Ansi.Color.CYAN, "DirSize v" + VERSION);
+		Output.printColorln(Ansi.Color.CYAN, COPYRIGHT + "\n");
 
 		// Display some useful information about the environment if in Debug Mode
 		Debug.displaySysInfo();
