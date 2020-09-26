@@ -13,7 +13,7 @@ One of the interesting things about DirSize is it shows a visual representation 
 ## Command-Line Options
 **Usage:**
 
-`java -jar dirsize.jar [-D] [-x <filename>] [-ss|-sf|-sd] [-c width] [-v] [-h|?] [Directory]`
+`java -jar dirsize.jar [-D] [-x <filename>] [-ss|-sf|-sd][-r] [-c width] [-v] [-h|?] [Directory]`
 
 |Option|Description|
 |-------|-----------|
@@ -22,6 +22,7 @@ One of the interesting things about DirSize is it shows a visual representation 
 |-ss| Sort output by the directory sizes.  This is the default|
 |-sf| Sort output by the number of files|
 |-sd| Sort output by directory name|
+|-r| Reverse the sort order.  Ascending or descending will depend on the sorting type selected. File and Size sorting will be displayed in ascending order.  Directory sorting will be displayed alphabetically in reverse order|
 |-e| Suppress error display.  Normally, issues with scanning are display at the end of the output.  With this switch enabled, this list will be suppressed.  Scanning errors usually happen when DirSize does not have permission to a file or folder although there can be other reasons|
 |-c Width|Set By default, DirSize uses the full console width.  However, you can change this.  Useful if you have a very wide console display|
 |-v| Simply display the program version and exit|

@@ -17,10 +17,11 @@ import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
 
 public class Spinner2 extends Thread {
-	protected final int SPINNER_DELAY = 100;
+	protected final int SPINNER_DELAY = 80;
 	protected final int NUM_BALL_SLOTS = 5;
-	protected final String LEFT_WALL = "[";
-	protected final String RIGHT_WALL = "]";
+	protected final String LEFT_WALL = "|";
+	protected final String RIGHT_WALL = "|";
+	protected final String BALL = "o";
 
 	// Position of the ball in it's journey
 	int ballPosition = 0;
@@ -54,7 +55,7 @@ public class Spinner2 extends Thread {
 		// Display the bouncy ball and walls
 		Output.printColor(Ansi.Color.WHITE, LEFT_WALL);
 		System.out.print(" ".repeat(ballPosition));
-		Output.printColor(Ansi.Color.YELLOW, "o");
+		Output.printColor(Ansi.Color.YELLOW, BALL);
 		System.out.print(" ".repeat(NUM_BALL_SLOTS - ballPosition));
 		Output.printColor(Ansi.Color.WHITE, RIGHT_WALL);
 

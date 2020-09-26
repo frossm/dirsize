@@ -37,6 +37,7 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, "   -ss:      Sort output by directory size [Default]d");
 		Output.printColorln(Ansi.Color.WHITE, "   -sf:      Sort output by file counts");
 		Output.printColorln(Ansi.Color.WHITE, "   -sd:      Sort output by directory names");
+		Output.printColorln(Ansi.Color.WHITE, "   -r:       Reverse the default sort order");
 		Output.printColorln(Ansi.Color.WHITE, "   -v:       Display the program version and exit");
 		Output.printColorln(Ansi.Color.WHITE, "   -x file:  Export the results as a CSV to the file provided");
 		Output.printColorln(Ansi.Color.WHITE, "   -c width: Width of output in columns");

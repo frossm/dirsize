@@ -42,6 +42,8 @@ public class Main {
 	private static final int DISPLAY_PERCENT_VISUALMAP = 40;
 	private static final String ROOT_DIR_NAME = "[RootDir]";
 	private static final int MIN_TERMINAL_WIDTH = 60;
+	private static final String MAP_FILLED_CHAR = "*";
+	private static final String MAP_EMPTY_CHAR = "-";
 
 	// Class Variables
 	protected static String VERSION;
@@ -59,6 +61,7 @@ public class Main {
 		File[] rootMembers = {};
 		char sortBy = 's';	// Default is sortBy size. 'f' and 'd' are also allowed
 		boolean errorDisplayFlag = true;
+		boolean reverseSort = false;
 		int terminalWidth = 90;
 		File exportFile = null;
 
@@ -104,7 +107,7 @@ public class Main {
 		}
 
 		// Process Command Line Options and set flags where needed
-		Getopt optG = new Getopt("DirSize", args, "Dvx:s:ec:?h");
+		Getopt optG = new Getopt("DirSize", args, "Dvx:s:rec:?h");
 		while ((optionEntry = optG.getopt()) != -1) {
 			switch (optionEntry) {
 			// Debug Mode
@@ -148,6 +151,11 @@ public class Main {
 					Output.fatalError("Sort by option (-s) not recognized: '" + sortBy + "' See help", 1);
 					break;
 				}
+				break;
+
+			// Reverse Sort - Display results in ascending order
+			case 'r':
+				reverseSort = true;
 				break;
 
 			// Error Display flag
@@ -329,17 +337,30 @@ public class Main {
 		Output.printColorln(Ansi.Color.CYAN, "\n" + "-".repeat(terminalWidth));
 
 		// Get the sorted results based on the which column the user chose (-s option)
+		// If reverse sorting is desired (-r) adjust accordingly
 		Map<String, Long> resultMap = null;
 		switch (sortBy) {
 		case 's':
-			resultMap = SizeMap.sortByValueDescending(mapSize);
+			if (reverseSort == false)
+				resultMap = SizeMap.sortByValueDescending(mapSize);
+			else
+				resultMap = SizeMap.sortByValueAscending(mapSize);
 			break;
+
 		case 'f':
-			resultMap = SizeMap.sortByValueDescending(mapFiles);
+			if (reverseSort == false)
+				resultMap = SizeMap.sortByValueDescending(mapFiles);
+			else
+				resultMap = SizeMap.sortByValueAscending(mapFiles);
 			break;
+
 		case 'd':
-			resultMap = SizeMap.sortByKeyAscendingCI(mapFiles);
+			if (reverseSort == false)
+				resultMap = SizeMap.sortByKeyAscendingCI(mapFiles);
+			else
+				resultMap = SizeMap.sortByKeyDescendingCI(mapFiles);
 			break;
+
 		default:
 			Output.printColorln(Ansi.Color.RED, "ERROR: Could not detemine how to sort.  Defaulting to Size. You should never see this...");
 			// Default to size sorting
@@ -398,8 +419,8 @@ public class Main {
 
 				int numDashes = displayVisualMap - numAsterisk;
 				Output.printColor(Ansi.Color.WHITE, "    [");
-				Output.printColor(Ansi.Color.YELLOW, "*".repeat(numAsterisk));
-				Output.printColor(Ansi.Color.CYAN, "-".repeat(numDashes));
+				Output.printColor(Ansi.Color.YELLOW, MAP_FILLED_CHAR.repeat(numAsterisk));
+				Output.printColor(Ansi.Color.CYAN, MAP_EMPTY_CHAR.repeat(numDashes));
 				Output.printColor(Ansi.Color.WHITE, "]");
 				System.out.println();
 			}
