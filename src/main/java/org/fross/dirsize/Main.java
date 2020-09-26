@@ -464,10 +464,16 @@ public class Main {
 			if (exportFile.canWrite()) {
 				FileWriter exportFW;
 				try {
+					// Define the output file
 					exportFW = new FileWriter(exportFile);
+
+					// Output the header to the CSV file
+					exportFW.append("\"" + "Directory" + "\",\"" + "Size" + "\",\"" + "Files" + "\"\n");
+					
+					//  Loop through the results and export the output
 					for (Map.Entry<String, Long> i : resultMap.entrySet()) {
 						String key = i.getKey();
-						exportFW.append("\"" + key + "\",");
+						exportFW.append("\"" + mapFullPath.get(key) + "\",");
 						exportFW.append("\"" + mapSize.get(key) + "\",");
 						exportFW.append("\"" + mapFiles.get(key) + "\"");
 						exportFW.append("\n");

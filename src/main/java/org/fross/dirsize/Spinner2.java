@@ -17,10 +17,10 @@ import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
 
 public class Spinner2 extends Thread {
-	protected final int SPINNER_DELAY = 80;
-	protected final int NUM_BALL_SLOTS = 5;
-	protected final String LEFT_WALL = "|";
-	protected final String RIGHT_WALL = "|";
+	protected final int SPINNER_DELAY = 70;
+	protected final int NUM_BALL_SLOTS = 6;
+	protected final String LEFT_WALL = "[";
+	protected final String RIGHT_WALL = "]";
 	protected final String BALL = "o";
 
 	// Position of the ball in it's journey
