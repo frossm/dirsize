@@ -64,7 +64,7 @@ public class Spinner2 extends Thread {
 
 		// Determine next ball location
 		if (ballDirection > 0) {
-			// Ball moving to the left (positive direction)
+			// Ball moving to the right (positive direction)
 			ballPosition++;
 			if (ballPosition >= NUM_BALL_SLOTS)
 				ballDirection *= -1;
