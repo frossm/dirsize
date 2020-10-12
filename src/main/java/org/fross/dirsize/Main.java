@@ -23,6 +23,7 @@ import java.util.Properties;
 import org.fross.library.Debug;
 import org.fross.library.Format;
 import org.fross.library.Output;
+import org.fross.library.SpinnerBouncyBall;
 import org.fusesource.jansi.Ansi;
 
 import gnu.getopt.Getopt;
@@ -254,7 +255,7 @@ public class Main {
 		Output.printColor(Ansi.Color.WHITE, "Scanning " + rootDir + ": ");
 
 		// Create the spinner
-		Spinner2 spinner = new Spinner2();
+		SpinnerBouncyBall spinner = new SpinnerBouncyBall();
 		spinner.start();
 
 		// Enable the benchmark timer
