@@ -34,7 +34,7 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, "Usage: java -jar dirsize.jar [-D] [-x <filename>] [-ss|-sf|-sd] [-r] [-c <width>] [-v] [-h|?] [Directory]\n");
 		Output.printColorln(Ansi.Color.WHITE, "   -D:       Debug Mode.  Displays extra debug output");
 		Output.printColorln(Ansi.Color.WHITE, "   -e:       Suppress Error display.  Normally scanning errors are displayed");
-		Output.printColorln(Ansi.Color.WHITE, "   -ss:      Sort output by directory size [Default]d");
+		Output.printColorln(Ansi.Color.WHITE, "   -ss:      Sort output by directory size [Default]");
 		Output.printColorln(Ansi.Color.WHITE, "   -sf:      Sort output by file counts");
 		Output.printColorln(Ansi.Color.WHITE, "   -sd:      Sort output by directory names");
 		Output.printColorln(Ansi.Color.WHITE, "   -r:       Reverse the default sort order");
