@@ -35,7 +35,7 @@ Display a size sorted report from the current directory
 
 **``java -jar dirsize.jar -sd C:\Apps``**
 
-Display a directoyr name sorted report from the C:\Apps directory
+Display a directory name sorted report from the C:\Apps directory
 
 **``java -jar dirsize.jar -c 80 -sf /home/jimbob``**
 
@@ -56,7 +56,7 @@ sudo snap install dirsize (Assuming snapd is installed)
 
 **Note:**
 
-Snap applications run in a container and by default do not have rights to see files on the filesystem outside of this 'sandbox.'  In order to use DirSize, it needs to be able see file names and sized.  The interface ``system-backup`` gives it that right.  Therefore, to use dirsize , you need to allow it to read file information by executing:
+Snap applications run in a container and by default do not have rights to see files on the filesystem outside of this 'sandbox.'  In order to use DirSize, it needs to be able see file names and sizes.  The interface ``system-backup`` gives it that right.  Therefore, to use dirsize , you need to allow it to read file information by executing:
 
 ``sudo snap connect dirsize:system-backup``
 
