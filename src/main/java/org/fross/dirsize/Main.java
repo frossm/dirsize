@@ -78,7 +78,8 @@ public class Main {
 
 		// Set the terminalWidth. jAnsi will get it for windows, but doesn't seem to work for Linux
 		if (System.getProperty("os.name").toLowerCase().contains("windows")) {
-			terminalWidth = org.fusesource.jansi.internal.WindowsSupport.getWindowsTerminalWidth() - 1;
+			//terminalWidth = org.fusesource.jansi.internal.WindowsSupport.getWindowsTerminalWidth() - 1;
+			terminalWidth = 90;
 		} else if (System.getProperty("os.name").toLowerCase().contains("linux")) {
 			// TODO: determine how to handle this better. For now just set it to a reasonable amount
 			terminalWidth = 90;
