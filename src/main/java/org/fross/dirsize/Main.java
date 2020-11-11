@@ -78,7 +78,7 @@ public class Main {
 
 		// Set the terminalWidth. jAnsi will get it for windows, but doesn't seem to work for Linux
 		if (System.getProperty("os.name").toLowerCase().contains("windows")) {
-			//terminalWidth = org.fusesource.jansi.internal.WindowsSupport.getWindowsTerminalWidth() - 1;
+			// terminalWidth = org.fusesource.jansi.internal.WindowsSupport.getWindowsTerminalWidth() - 1;
 			terminalWidth = 90;
 		} else if (System.getProperty("os.name").toLowerCase().contains("linux")) {
 			// TODO: determine how to handle this better. For now just set it to a reasonable amount
@@ -389,20 +389,26 @@ public class Main {
 			}
 
 			if (new File(mapFullPath.get(key)).isDirectory() == true) {
-				// Directory Name
-				String outString = String.format("%-" + displayNameCol + "s", key);
+				// DISPLAY DIRECTORY NAME
+				// Truncate the directory name if it's too long and add a ">" to the end
+				String dName = key;
+				if (key.length() > displayNameCol) {
+					dName = key.substring(0, Math.min(key.length(), displayNameCol - 3)) + "...";
+				}
+
+				String outString = String.format("%-" + displayNameCol + "s", dName);
 				Output.printColor(fgColor, bgColor, outString);
 
-				// Size
+				// DISPLAY SIZE
 				outString = String.format("%" + displaySizeCol + "s", Format.humanReadableBytes(mapSize.get(key)));
 				Output.printColor(fgColor, bgColor, outString);
 
-				// Files
+				// DISPLAY FILES
 				DecimalFormat df = new DecimalFormat("#,###");
 				outString = String.format("%" + displayFilesCol + "s", df.format((double) mapFiles.get(key)));
 				Output.printColor(fgColor, bgColor, outString);
 
-				// Size/Files Map
+				// DISPLAY SIZE OR FILES MAP
 				int numAsterisk;
 				try {
 					if (sortBy == 'f') {
@@ -415,7 +421,7 @@ public class Main {
 					numAsterisk = 0;
 				}
 
-				// Quick safety check
+				// Quick safety check for an out of bounds value
 				if (numAsterisk > displayVisualMap)
 					numAsterisk = displayVisualMap;
 
@@ -471,8 +477,8 @@ public class Main {
 
 					// Output the header to the CSV file
 					exportFW.append("\"" + "Directory" + "\",\"" + "Size" + "\",\"" + "Files" + "\"\n");
-					
-					//  Loop through the results and export the output
+
+					// Loop through the results and export the output
 					for (Map.Entry<String, Long> i : resultMap.entrySet()) {
 						String key = i.getKey();
 						exportFW.append("\"" + mapFullPath.get(key) + "\",");
