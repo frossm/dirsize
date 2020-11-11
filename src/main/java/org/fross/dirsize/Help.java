@@ -20,8 +20,7 @@ import org.fusesource.jansi.Ansi;
  */
 public class Help {
 	/**
-	 * Display(): Prints help in color using the JCDP library in the output module.
-	 * 
+	 * Display(): Prints help information
 	 */
 	public static void Display() {
 		Output.printColorln(Ansi.Color.CYAN, "\n+------------------------------------------------------------------------------+");
@@ -49,6 +48,12 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " java -jar dirsize.jar -sd C:\\Apps");
 		Output.printColorln(Ansi.Color.CYAN, "    Display a directoyr name sorted report from the C:\\Apps directory\n");
 		Output.printColorln(Ansi.Color.WHITE, " java -jar dirsize.jar -c 80 -sf /home/jimbob");
-		Output.printColorln(Ansi.Color.CYAN, "    Display a file number sorted report from the jimbob's home dir using 100 columns\n");
+		Output.printColorln(Ansi.Color.CYAN, "    Display a file number sorted report from the jimbob's home dir using 100 columns");
+		
+		Output.printColorln(Ansi.Color.YELLOW, "\nSNAP permissions:");
+		Output.printColorln(Ansi.Color.WHITE, " When installed via a snap, permissions must be given to read the filesystem");
+		Output.printColorln(Ansi.Color.WHITE, " System-Backup allows dirsize to read directory contents and file sizes");
+		Output.printColorln(Ansi.Color.WHITE, "   - Give permission:    sudo snap connect dirsize:system-backup");
+		Output.printColorln(Ansi.Color.WHITE, "   - Remove permission:  sudo snap disconnect dirsize:system-backup");
 	}
 }
