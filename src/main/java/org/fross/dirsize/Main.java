@@ -43,7 +43,7 @@ public class Main {
 	private static final int DISPLAY_PERCENT_VISUALMAP = 40;
 	private static final String ROOT_DIR_NAME = "[RootDir]";
 	private static final int MIN_TERMINAL_WIDTH = 60;
-	private static final String MAP_FILLED_CHAR = "*";
+	private static final String MAP_FILLED_CHAR = "o";
 	private static final String MAP_EMPTY_CHAR = "-";
 
 	// Class Variables
