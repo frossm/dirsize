@@ -26,6 +26,7 @@ One of the interesting things about DirSize is it shows a visual representation 
 |-e| Suppress error display.  Normally, issues with scanning are display at the end of the output.  With this switch enabled, this list will be suppressed.  Scanning errors usually happen when DirSize does not have permission to a file or folder although there can be other reasons|
 |-c Width|Set By default, DirSize uses the full console width.  However, you can change this.  Useful if you have a very wide console display|
 |-v| Simply display the program version and exit|
+|-z| Disable colorized output|
 |-h \| -?| Display the program help|
 
 ## Examples

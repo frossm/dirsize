@@ -40,6 +40,7 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, "   -v:       Display the program version and exit");
 		Output.printColorln(Ansi.Color.WHITE, "   -x file:  Export the results as a CSV to the file provided");
 		Output.printColorln(Ansi.Color.WHITE, "   -c width: Width of output in columns");
+		Output.printColorln(Ansi.Color.WHITE, "   -z        Disable colorized output");
 		Output.printColorln(Ansi.Color.WHITE, "   -h | -?:  Display this help information");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nExample Usage:");
@@ -49,7 +50,7 @@ public class Help {
 		Output.printColorln(Ansi.Color.CYAN, "    Display a directoyr name sorted report from the C:\\Apps directory\n");
 		Output.printColorln(Ansi.Color.WHITE, " java -jar dirsize.jar -c 80 -sf /home/jimbob");
 		Output.printColorln(Ansi.Color.CYAN, "    Display a file number sorted report from the jimbob's home dir using 100 columns");
-		
+
 		Output.printColorln(Ansi.Color.YELLOW, "\nSNAP permissions:");
 		Output.printColorln(Ansi.Color.WHITE, " When installed via a snap, permissions must be given to read the filesystem");
 		Output.printColorln(Ansi.Color.WHITE, " System-Backup allows dirsize to read directory contents and file sizes");

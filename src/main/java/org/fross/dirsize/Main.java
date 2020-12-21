@@ -108,7 +108,7 @@ public class Main {
 		}
 
 		// Process Command Line Options and set flags where needed
-		Getopt optG = new Getopt("DirSize", args, "Dvx:s:rec:?h");
+		Getopt optG = new Getopt("DirSize", args, "Dvx:s:rec:z?h");
 		while ((optionEntry = optG.getopt()) != -1) {
 			switch (optionEntry) {
 			// Debug Mode
@@ -175,6 +175,11 @@ public class Main {
 				} catch (Exception Ex) {
 					Output.fatalError("Invalid Option for -c (columns) switch: '" + optG.getOptarg() + "'", 1);
 				}
+				break;
+				
+			// Disable colorized output
+			case 'z':
+				Output.setColor(false);
 				break;
 
 			// Display Help and Exit
