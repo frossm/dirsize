@@ -1,5 +1,5 @@
 name: dirsize
-version: '2.1.0'
+version: '2.1.1'
 summary: The Command line Directory Reporting Tool
 description: |
    DirSize is a directory reporting tool. It recursively scans
@@ -9,6 +9,9 @@ description: |
 grade: stable 
 confinement: strict
 base: core18
+
+# Enable faszter LZO compression
+compression: lzo
 
 apps:
   dirsize:
@@ -22,7 +25,7 @@ parts:
     plugin: maven
     source: https://github.com/frossm/library.git
     source-type: git
-    source-tag: 'v2020.12.21'
+    source-tag: 'v2020.12.23'
     maven-options: [install]
 
   dirsize:
