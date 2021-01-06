@@ -9,6 +9,7 @@
  ***********************************************************************/
 package org.fross.dirsize;
 
+import org.fross.library.Format;
 import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
 
@@ -23,11 +24,13 @@ public class Help {
 	 * Display(): Prints help information
 	 */
 	public static void Display() {
-		Output.printColorln(Ansi.Color.CYAN, "\n+------------------------------------------------------------------------------+");
-		Output.printColorln(Ansi.Color.CYAN, "DirSize v" + Main.VERSION + ".  " + Main.COPYRIGHT);
-		Output.printColorln(Ansi.Color.CYAN, "+------------------------------------------------------------------------------+");
-		Output.printColorln(Ansi.Color.WHITE, "DirSize is a tool to display directory size and file totals of subdirectories");
-		Output.printColorln(Ansi.Color.CYAN, "                https://github.com/frossm/dirsize");
+		final int HEADERWIDTH = 90;
+
+		Output.printColorln(Ansi.Color.CYAN, "\n+" + "-".repeat(HEADERWIDTH - 2) + "+");
+		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(HEADERWIDTH, ("DirSize v" + Main.VERSION + ".  " + Main.COPYRIGHT)));
+		Output.printColorln(Ansi.Color.CYAN, "+" + "-".repeat(HEADERWIDTH - 2) + "+");
+		Output.printColorln(Ansi.Color.WHITE, Format.CenterText(HEADERWIDTH, "DirSize is a tool to display directory size and file totals of subdirectories"));
+		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(HEADERWIDTH, "https://github.com/frossm/dirsize"));
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nCommand Line Options:");
 		Output.printColorln(Ansi.Color.WHITE, "Usage: java -jar dirsize.jar [-D] [-x <filename>] [-ss|-sf|-sd] [-r] [-c <width>] [-v] [-h|?] [Directory]\n");

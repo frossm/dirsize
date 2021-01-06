@@ -66,13 +66,13 @@ public class Main {
 		int terminalWidth = 90;
 		File exportFile = null;
 
-		// Define the HashMaps the scanning results. The directory name will be the key
+		// Define the HashMaps for the scanning results. The directory name will be the key.
 		HashMap<String, Long> mapSize = new HashMap<String, Long>();
 		HashMap<String, Long> mapFiles = new HashMap<String, Long>();
 		HashMap<String, String> mapFullPath = new HashMap<String, String>();
 
 		// Variables to hold the overall grand total directories, sizes, and file counts
-		long grandTotalSubdirs = 1L; // Starts with [root]
+		long grandTotalSubdirs = 1L; // It's not zero as it starts with [RootDir]
 		long grandTotalSize = 0L;
 		long grandTotalFiles = 0L;
 
@@ -104,7 +104,7 @@ public class Main {
 			prop.load(iStream);
 			VERSION = prop.getProperty("Application.version");
 			COPYRIGHT = "Copyright " + prop.getProperty("Application.inceptionYear") + "-" + org.fross.library.Date.getCurrentYear()
-					+ " by Michael Fross.  All rights reserved";
+					+ " by Michael Fross";
 		} catch (Exception ex) {
 			Output.fatalError("Unable to read property file '" + PROPERTIES_FILE + "'", 2);
 		}
