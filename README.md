@@ -13,7 +13,7 @@ One of the interesting things about DirSize is it shows a visual representation 
 ## Command-Line Options
 **Usage:**
 
-`java -jar dirsize.jar [-D] [-x <filename>] [-ss|-sf|-sd][-r] [-c width] [-v] [-h|?] [Directory]`
+`java -jar dirsize.jar [-D] [-x <filename>] [-ss|-sf|-sd] [-r] [-e] [-c width] [-v] [-z] [-h|?] [Directory]`
 
 |Option|Description|
 |-------|-----------|
