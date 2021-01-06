@@ -33,25 +33,26 @@ public class Help {
 		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(HEADERWIDTH, "https://github.com/frossm/dirsize"));
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nCommand Line Options:");
-		Output.printColorln(Ansi.Color.WHITE, "Usage: java -jar dirsize.jar [-D] [-x <filename>] [-ss|-sf|-sd] [-r] [-c <width>] [-v] [-h|?] [Directory]\n");
+		Output.printColorln(Ansi.Color.CYAN, " java -jar dirsize.jar [-D] [-e] [-ss|-sf|-sd] [-r] [-x filename] [-c width] [-z] [-v] [-h|?] [Directory]");
+
 		Output.printColorln(Ansi.Color.WHITE, "   -D:       Debug Mode.  Displays extra debug output");
 		Output.printColorln(Ansi.Color.WHITE, "   -e:       Suppress Error display.  Normally scanning errors are displayed");
 		Output.printColorln(Ansi.Color.WHITE, "   -ss:      Sort output by directory size [Default]");
 		Output.printColorln(Ansi.Color.WHITE, "   -sf:      Sort output by file counts");
 		Output.printColorln(Ansi.Color.WHITE, "   -sd:      Sort output by directory names");
 		Output.printColorln(Ansi.Color.WHITE, "   -r:       Reverse the default sort order");
-		Output.printColorln(Ansi.Color.WHITE, "   -v:       Display the program version and exit");
 		Output.printColorln(Ansi.Color.WHITE, "   -x file:  Export the results as a CSV to the file provided");
 		Output.printColorln(Ansi.Color.WHITE, "   -c width: Width of output in columns");
 		Output.printColorln(Ansi.Color.WHITE, "   -z        Disable colorized output");
+		Output.printColorln(Ansi.Color.WHITE, "   -v:       Display the program version and exit");
 		Output.printColorln(Ansi.Color.WHITE, "   -h | -?:  Display this help information");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nExample Usage:");
 		Output.printColorln(Ansi.Color.WHITE, " java -jar dirsize.jar");
 		Output.printColorln(Ansi.Color.CYAN, "    Display a size sorted report from the current directory\n");
 		Output.printColorln(Ansi.Color.WHITE, " java -jar dirsize.jar -sd C:\\Apps");
-		Output.printColorln(Ansi.Color.CYAN, "    Display a directoyr name sorted report from the C:\\Apps directory\n");
-		Output.printColorln(Ansi.Color.WHITE, " java -jar dirsize.jar -c 80 -sf /home/jimbob");
+		Output.printColorln(Ansi.Color.CYAN, "    Display a directory name sorted report from the C:\\Apps directory\n");
+		Output.printColorln(Ansi.Color.WHITE, " java -jar dirsize.jar -c 100 -sf /home/jimbob");
 		Output.printColorln(Ansi.Color.CYAN, "    Display a file number sorted report from the jimbob's home dir using 100 columns");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nSNAP permissions:");
