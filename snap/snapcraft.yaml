@@ -1,5 +1,5 @@
 name: dirsize
-version: '2.1.2'
+version: '2.2.0'
 summary: The Command line Directory Reporting Tool
 description: |
    DirSize is a directory reporting tool. It recursively scans
@@ -18,14 +18,15 @@ apps:
     command: bin/java -Djava.util.prefs.userRoot="$SNAP_USER_DATA" -jar $SNAP/jar/dirsize.jar
 
     plugs:
-    - system-backup
-
+    - personal-files
+    - network
+    
 parts:
   library:
     plugin: maven
     source: https://github.com/frossm/library.git
     source-type: git
-    source-tag: 'v2020.12.23'
+    source-tag: 'v2021.02.01'
     maven-options: [install]
 
   dirsize:
@@ -34,4 +35,3 @@ parts:
     source-branch: master
     source-type: git
     after: [library]
-
