@@ -18,8 +18,8 @@ apps:
     command: bin/java -Djava.util.prefs.userRoot="$SNAP_USER_DATA" -jar $SNAP/jar/dirsize.jar
 
     plugs:
-    - personal-files
     - network
+    - system-backup
     
 parts:
   library:
