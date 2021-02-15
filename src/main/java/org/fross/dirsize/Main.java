@@ -96,8 +96,8 @@ public class Main {
 
 		// Set the terminalWidth. jAnsi will get it for windows, but doesn't seem to work for Linux
 		if (System.getProperty("os.name").toLowerCase().contains("windows")) {
-			// Stopped working with latest jAnsi.  Need to look into it.
-			//terminalWidth = org.fusesource.jansi.internal.WindowsSupport.getWindowsTerminalWidth() - 1;
+			// Stopped working with latest jAnsi. Need to look into it.
+			// terminalWidth = org.fusesource.jansi.internal.WindowsSupport.getWindowsTerminalWidth() - 1;
 			terminalWidth = 90;
 		} else if (System.getProperty("os.name").toLowerCase().contains("linux")) {
 			// TODO: determine how to handle this better. For now just set it to a reasonable amount
@@ -121,8 +121,7 @@ public class Main {
 			Properties prop = new Properties();
 			prop.load(iStream);
 			VERSION = prop.getProperty("Application.version");
-			COPYRIGHT = "Copyright " + prop.getProperty("Application.inceptionYear") + "-" + org.fross.library.Date.getCurrentYear()
-					+ " by Michael Fross";
+			COPYRIGHT = "Copyright " + prop.getProperty("Application.inceptionYear") + "-" + org.fross.library.Date.getCurrentYear() + " by Michael Fross";
 		} catch (Exception ex) {
 			Output.fatalError("Unable to read property file '" + PROPERTIES_FILE + "'", 2);
 		}
@@ -171,7 +170,7 @@ public class Main {
 					sortBy = 'd';
 					break;
 				default:
-					Output.fatalError("Sort by option (-s) not recognized: '" + sortBy + "' See help", 1);
+					Output.fatalError("SortBy option '" + sortBy + "' not recognized.  See help", 1);
 					break;
 				}
 				break;
@@ -198,7 +197,7 @@ public class Main {
 					Output.fatalError("Invalid Option for -c (columns) switch: '" + optG.getOptarg() + "'", 1);
 				}
 				break;
-				
+
 			// Disable colorized output
 			case 'z':
 				Output.enableColor(false);
@@ -243,11 +242,16 @@ public class Main {
 		}
 
 		// Create a File array of each subdirectory under the root directory that will be our target
-		rootMembers = new File(rootDir).listFiles();
+		try {
+			rootMembers = new File(rootDir).listFiles();
 
-		// listFiles does return full paths. Build a HashMap with full paths
-		for (int i = 0; i < rootMembers.length; i++) {
-			mapFullPath.put(rootMembers[i].getName(), rootMembers[i].getAbsolutePath());
+			// listFiles does return full paths. Build a HashMap with full paths
+			for (int i = 0; i < rootMembers.length; i++) {
+				mapFullPath.put(rootMembers[i].getName(), rootMembers[i].getAbsolutePath());
+			}
+		} catch (NullPointerException ex) {
+			Output.printColorln(Ansi.Color.RED, "Error scanning files: " + ex.getMessage());
+			Output.fatalError("If DirSize is running as a snap, ensure it's been given the system-backup privilege.  See Help.", 1);
 		}
 
 		// Debug output: Show root members
