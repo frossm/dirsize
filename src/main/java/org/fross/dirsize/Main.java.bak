@@ -251,7 +251,7 @@ public class Main {
 			}
 		} catch (NullPointerException ex) {
 			Output.printColorln(Ansi.Color.RED, "Error scanning root directory files");
-			Output.fatalError("If DirSize is running as a snap, ensure it's been given the system-backup privilege.  See help (-h)\n", 1);
+			Output.fatalError("If DirSize is running as a snap, ensure it's been given the system-backup privilege.  See Help\n", 1);
 		}
 
 		// Debug output: Show root members
