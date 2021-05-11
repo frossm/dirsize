@@ -160,19 +160,28 @@ public class Main {
 			case 's':
 				char sortOption = optG.getOptarg().toLowerCase().charAt(0);
 				switch (sortOption) {
-				case 's':	// Size
+
+				// Sort by Size
+				case 's':
 					sortBy = 's';
 					break;
-				case 'f':	// Files
+
+				// Sort by Files
+				case 'f':
 					sortBy = 'f';
 					break;
-				case 'd':	// Directory
+
+				// Sort by Directory Name
+				case 'd':
 					sortBy = 'd';
 					break;
+
+				// Display error if unsupported sort switch provided
 				default:
 					Output.fatalError("SortBy option '" + sortBy + "' not recognized.  See help", 1);
 					break;
 				}
+
 				break;
 
 			// Reverse Sort - Display results in ascending order
