@@ -38,16 +38,16 @@ import org.fross.library.Output;
  */
 public class Benchmark {
 
-	LocalTime StartTime;
-	LocalTime EndTime;
-	long Delta;
+	LocalTime startTime;
+	LocalTime endTime;
+	long delta;
 
 	/**
 	 * Constructor sets the start time.
 	 */
 	public Benchmark() {
-		StartTime = LocalTime.now();
-		Output.debugPrint("Benchmark StartTime = " + StartTime.toString());
+		startTime = LocalTime.now();
+		Output.debugPrint("Benchmark startTime = " + startTime.toString());
 	}
 
 	/**
@@ -56,14 +56,14 @@ public class Benchmark {
 	 * @return long
 	 */
 	public long Stop() {
-		EndTime = LocalTime.now();
+		endTime = LocalTime.now();
 
-		Delta = ChronoUnit.MILLIS.between(StartTime, EndTime);
+		delta = ChronoUnit.MILLIS.between(startTime, endTime);
 
-		Output.debugPrint("Benchmark EndTime   = " + EndTime.toString());
-		Output.debugPrint("Milliseconds Delta = " + Delta);
+		Output.debugPrint("Benchmark endTime   = " + endTime.toString());
+		Output.debugPrint("Milliseconds delta = " + delta);
 
-		return (Delta);
+		return (delta);
 	}
 
 	/**
@@ -72,7 +72,7 @@ public class Benchmark {
 	 * @return long
 	 */
 	public LocalTime queryStartTime() {
-		return (StartTime);
+		return (startTime);
 	}
 
 	/**
@@ -81,7 +81,16 @@ public class Benchmark {
 	 * @return long
 	 */
 	public LocalTime queryEndTime() {
-		return (EndTime);
+		return (endTime);
+	}
+
+	/**
+	 * queryDelta(): Return this objects delta between start and end time
+	 * 
+	 * @return
+	 */
+	public long queryDelta() {
+		return (delta);
 	}
 
 }

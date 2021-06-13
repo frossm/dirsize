@@ -45,7 +45,7 @@ public class SizeMap {
 	 * @return
 	 */
 	public static long queryMax(HashMap<String, Long> inputMap, File[] members) {
-		Long sizeMapMax = 0L;
+		Long sizeMapMax = Long.MIN_VALUE;
 
 		for (int i = 0; i < members.length; i++) {
 			// Ensure we only look at directories
@@ -68,7 +68,7 @@ public class SizeMap {
 	 * @return
 	 */
 	public static long queryMin(HashMap<String, Long> inputMap, File[] members) {
-		long sizeMapMin = 0x7fffffffffffffffL;  // Largest value a long can have
+		long sizeMapMin = Long.MAX_VALUE;  // Largest value a long can have
 
 		for (int i = 0; i < members.length; i++) {
 			// Ensure we only look at directories

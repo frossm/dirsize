@@ -43,7 +43,7 @@ import org.fusesource.jansi.Ansi;
 public class ScanDir {
 	public long[] ScanDirectory(File DirToScan) {
 		// Accumulating totals. Element [0]=Total Size. Element [1]=Total Files.
-		long[] LocalTotals = { 0, 0 };
+		long[] LocalTotals = { 0L, 0L };
 
 		// Holds the results of a recursive call
 		long[] SubTotals;
@@ -78,6 +78,6 @@ public class ScanDir {
 		// Return back to the calling function an array with Size & File totals
 		return (LocalTotals);
 
-	} // End Method
+	}
 
-} // End Class
+}

@@ -94,16 +94,13 @@ public class Main {
 		long grandTotalSize = 0L;
 		long grandTotalFiles = 0L;
 
-		// Set the terminalWidth. jAnsi will get it for windows, but doesn't seem to work for Linux
+		// Set the default terminalWidth by OS. jAnsi used to work in windows with:
+		// org.fusesource.jansi.internal.WindowsSupport.getWindowsTerminalWidth()
 		if (System.getProperty("os.name").toLowerCase().contains("windows")) {
-			// Stopped working with latest jAnsi. Need to look into it.
-			// terminalWidth = org.fusesource.jansi.internal.WindowsSupport.getWindowsTerminalWidth() - 1;
 			terminalWidth = 90;
 		} else if (System.getProperty("os.name").toLowerCase().contains("linux")) {
-			// TODO: determine how to handle this better. For now just set it to a reasonable amount
 			terminalWidth = 90;
 		} else {
-			// Just set the terminalWidth to a fairly safe value
 			terminalWidth = 90;
 		}
 
@@ -266,14 +263,17 @@ public class Main {
 		// Debug output: Show root members
 		Output.debugPrint("Root Members to Process:");
 		Output.debugPrint("  Directories:");
-		for (int i = 0; i < rootMembers.length; i++) {
-			if (rootMembers[i].isDirectory() == true)
-				Output.debugPrint("     - " + rootMembers[i].toString());
-		}
-		Output.debugPrint("  Files:");
-		for (int i = 0; i < rootMembers.length; i++) {
-			if (rootMembers[i].isFile() == true)
-				Output.debugPrint("     - " + rootMembers[i].toString());
+		if (Debug.query() == true) {
+			for (int i = 0; i < rootMembers.length; i++) {
+				if (rootMembers[i].isDirectory() == true)
+					Output.debugPrint("     - " + rootMembers[i].toString());
+			}
+
+			Output.debugPrint("  Files:");
+			for (int i = 0; i < rootMembers.length; i++) {
+				if (rootMembers[i].isFile() == true)
+					Output.debugPrint("     - " + rootMembers[i].toString());
+			}
 		}
 
 		// Display important values after options have been set
@@ -287,16 +287,20 @@ public class Main {
 			// Guess we're not exporting - ignore
 		}
 
-		// Prime the hash maps that will store the results
-		mapSize.put(ROOT_DIR_NAME, (long) 0);
-		mapFiles.put(ROOT_DIR_NAME, (long) 0);
+		// Prime the hash maps that will store the results of the scan
+		mapSize.put(ROOT_DIR_NAME, 0L);
+		mapFiles.put(ROOT_DIR_NAME, 0L);
 		mapFullPath.put(ROOT_DIR_NAME, rootDir);
 
 		Output.printColor(Ansi.Color.WHITE, "Scanning " + rootDir + ": ");
 
-		// Create the spinner
+		// Create the spinner if we have color enabled (ANSI is needed for cursor movement)
 		SpinnerBouncyBall spinner = new SpinnerBouncyBall();
-		spinner.start();
+		if (Output.queryColorEnabled() == true) {
+			spinner.start();
+		} else {
+			Output.println("");
+		}
 
 		// Enable the benchmark timer
 		Benchmark benchmarkTimer = new Benchmark();
@@ -331,8 +335,10 @@ public class Main {
 		}
 
 		// Stop the spinner
-		spinner.interrupt();
-		Output.printColorln(Ansi.Color.WHITE, "[Complete]");
+		if (Output.queryColorEnabled() == true) {
+			spinner.interrupt();
+			Output.printColorln(Ansi.Color.WHITE, "[Complete]");
+		}
 
 		// Determine number of columns based on the percentage constants
 		int displayNameCol = (int) (terminalWidth * DISPLAY_PERCENT_NAME * .01);
@@ -537,6 +543,6 @@ public class Main {
 			// Looks like we are not exporting - ignore
 		}
 
-	} // END MAIN METHOD
+	}
 
-} // END MAIN CLASS
+}
