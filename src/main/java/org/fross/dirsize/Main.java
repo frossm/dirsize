@@ -434,14 +434,20 @@ public class Main {
 			}
 
 			if (new File(mapFullPath.get(key)).isDirectory() == true) {
-				// DISPLAY DIRECTORY NAME
-				// Truncate the directory name if it's too long and add a ">" to the end
-				String dName = key;
-				if (key.length() > displayNameCol) {
-					dName = key.substring(0, Math.min(key.length(), displayNameCol - 3)) + "...";
+				// Display the Directory Name
+				String displayName = key;
+
+				// Append [LINK] to the name for symbolic links (Symbolic Link detection doesn't work in Windows)
+				if (Files.isSymbolicLink(Paths.get(mapFullPath.get(key))) == true) {
+					displayName = displayName + " [LINK]";
 				}
 
-				String outString = String.format("%-" + displayNameCol + "s", dName);
+				// Truncate the directory name if it's too long and add a ">" to the end
+				if (key.length() > displayNameCol) {
+					displayName = key.substring(0, Math.min(key.length(), displayNameCol - 3)) + "...";
+				}
+
+				String outString = String.format("%-" + displayNameCol + "s", displayName);
 				Output.printColor(fgColor, bgColor, outString);
 
 				// DISPLAY SIZE

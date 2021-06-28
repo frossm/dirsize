@@ -29,6 +29,9 @@ One of the interesting things about DirSize is it shows a visual representation 
 |-z| Disable colorized output|
 |-h \| -?| Display the program help|
 
+## Symbolic Links
+DirSize will detect if a directory is a symbolic link and display it in a different color with `[LINK]` appended to the name.  However, this functionality does not seem to work with Windows.  I've tested this in Linux (Ubuntu) and it works well, but does not seem to work on Windows.  Java can't determine if a directory is a link.  I have not been able to test on a MAC, so if someone has a MAC, drop me a note and I'll update this README.
+
 ## Examples
 **``java -jar dirsize.jar``**
 
