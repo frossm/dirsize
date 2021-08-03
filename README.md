@@ -24,9 +24,9 @@ One of the interesting things about DirSize is it shows a visual representation 
 |-sd| Sort output by directory name|
 |-r| Reverse the sort order.  Ascending or descending will depend on the sorting type selected. File and Size sorting will be displayed in ascending order.  Directory sorting will be displayed alphabetically in reverse order|
 |-e| Suppress error display.  Normally, issues with scanning are display at the end of the output.  With this switch enabled, this list will be suppressed.  Scanning errors usually happen when DirSize does not have permission to a file or folder although there can be other reasons|
-|-c Width|Set By default, DirSize uses the full console width.  However, you can change this.  Useful if you have a very wide console display|
+|-c Width|Set By default, DirSize uses a 90 character console width.  However, you can change this|
 |-v| Simply display the program version and exit.  `-v` will also query GitHub and show the latest program release|
-|-z| Disable colorized output|
+|-z| Disable colorized output.  DirSize colors are made for a dark terminal background.  You may need to do this to remove the colors which will then show correctly on light backgrounds|
 |-h \| -?| Display the program help|
 
 ## Symbolic Links
