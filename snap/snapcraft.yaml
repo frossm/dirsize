@@ -16,6 +16,9 @@ compression: lzo
 apps:
   dirsize:
     command: bin/java -Djava.util.prefs.userRoot="$SNAP_USER_DATA" -jar $SNAP/jar/dirsize.jar
+    plugs:
+      - system-backup
+      - network
 
 parts:
   library:
@@ -34,9 +37,3 @@ parts:
     override-prime: |
       snapcraftctl prime
       rm -vf usr/lib/jvm/java-11-openjdk-*/lib/security/blacklisted.certs
-
-plugs:
-   dirsize-network:
-      interface: network
-   dirsize-systembackup:
-      interface: system-backup
