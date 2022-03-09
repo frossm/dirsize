@@ -33,7 +33,7 @@ parts:
     after: [library]
     override-prime: |
       snapcraftctl prime
-      rm -vf usr/lib/jvm/java-11-openjdk-*/lib/security/blacklisted.certsc
+      rm -vf usr/lib/jvm/java-11-openjdk-*/lib/security/blacklisted.certs
 
 plugs:
    dirsize-network:
