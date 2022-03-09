@@ -3,10 +3,10 @@ version: '2.2.11'
 summary: The Command line Directory Reporting Tool
 description: |
    DirSize is a directory reporting tool. It recursively scans
-   the provided (or current) directory, and reports the 
+   the provided (or current) directory, and reports the
    number of files and director sizes of each subdirectory present.
 
-grade: stable 
+grade: stable
 confinement: strict
 base: core18
 
@@ -17,16 +17,12 @@ apps:
   dirsize:
     command: bin/java -Djava.util.prefs.userRoot="$SNAP_USER_DATA" -jar $SNAP/jar/dirsize.jar
 
-    plugs:
-    - network
-    - system-backup
-    
 parts:
   library:
     plugin: maven
     source: https://github.com/frossm/library.git
     source-type: git
-    source-tag: 'v2021.05.16'
+    source-tag: 'v2021.10.24'
     maven-options: [install]
 
   dirsize:
@@ -38,3 +34,9 @@ parts:
     override-prime: |
       snapcraftctl prime
       rm -vf usr/lib/jvm/java-11-openjdk-*/lib/security/blacklisted.certsc
+
+plugs:
+   dirsize-network:
+      interface: network
+   dirsize-systembackup:
+      interface: system-backup
