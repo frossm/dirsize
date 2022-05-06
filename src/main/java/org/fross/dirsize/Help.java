@@ -77,5 +77,8 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " System-Backup allows dirsize to read directory contents and file sizes");
 		Output.printColorln(Ansi.Color.WHITE, "   - Give permission:    sudo snap connect dirsize:system-backup");
 		Output.printColorln(Ansi.Color.WHITE, "   - Remove permission:  sudo snap disconnect dirsize:system-backup");
+		Output.printColorln(Ansi.Color.WHITE, "\n Home permission allows dirsize to import and output data to the filesystem");
+		Output.printColorln(Ansi.Color.WHITE, "   - Give permission:    sudo snap connect dirsize:home");
+		Output.printColorln(Ansi.Color.WHITE, "   - Remove permission:  sudo snap disconnect dirsize:home");
 	}
 }

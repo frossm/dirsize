@@ -68,6 +68,10 @@ If you change your mind, you can remove this permission by executing:
 
 ``sudo snap disconnect dirsize:system-backup``
 
+If you use the `-x` export or `-i` import capabilities, be sure to assign the needed permissions via `snap connect`
+
+``sudo snap connect dirsize:home``
+
 ## Wrapup
 I'm making this freely available in the hope that others may find this useful. Please let me know if you have any issues, thoughts or suggestions for enhancements by mailing dirsize@fross.org.
 
