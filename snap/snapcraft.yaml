@@ -1,5 +1,5 @@
 name: dirsize
-version: '2.2.15'
+version: '2.2.16'
 summary: The Command line Directory Reporting Tool
 description: |
    DirSize is a directory reporting tool. It recursively scans
