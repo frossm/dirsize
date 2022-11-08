@@ -186,7 +186,7 @@
 		<dependency>
 			<groupId>org.fross</groupId>
 			<artifactId>library</artifactId>
-			<version>2022.07.28</version>
+			<version>2022.09.07</version>
 		</dependency>
 
 	</dependencies>
