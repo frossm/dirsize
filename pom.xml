@@ -7,7 +7,7 @@
 
 	<groupId>org.fross</groupId>
 	<artifactId>dirsize</artifactId>
-	<version>2.2.17</version>
+	<version>2.2.18</version>
 
 	<name>dirsize</name>
 
@@ -186,7 +186,7 @@
 		<dependency>
 			<groupId>org.fross</groupId>
 			<artifactId>library</artifactId>
-			<version>2022.09.07</version>
+			<version>2022.11.21</version>
 		</dependency>
 
 	</dependencies>

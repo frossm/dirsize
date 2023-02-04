@@ -5,7 +5,7 @@
 # DirSize
 <img align="right" width="200" src="https://github.com/frossm/dirsize/raw/master/graphics/PostIt-512x512.jpg">DirSize is a directory reporting tool.  It recursively scans the provided (or current) directory, and reports the number of files and director sizes of each subdirectory present.  It also defaults to sorting by by directory size, but there are other options.
 
-Lastly, it's written in Java and packaged into a single executable JAR file.  All of the dependencies built in so it should run anywhere.  Howver, I've only tested it on Windows 10 and Ubuntu.
+Lastly, it's written in Java and packaged into a single executable JAR file.  All of the dependencies built in so it should run anywhere.  Howver, I've only tested it on Windows 10/11 and Ubuntu.
 
 ## Maps
 One of the interesting things about DirSize is it shows a visual representation of the file sizes of counts.  I call this a SizeMap or FilesMap and it's the area to the right of the output.  If you sort by size (default or -ss) or directories (-sd) is will show the SizeMap.  If sorted by file counts (-sf) the map will change to show a visual representation of the number of files per subdirectory, sorted from high to low.
