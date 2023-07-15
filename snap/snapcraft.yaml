@@ -1,5 +1,5 @@
 name: dirsize
-version: '2.2.21'
+version: '2.2.22'
 summary: The Command line Directory Reporting Tool
 description: |
    DirSize is a directory reporting tool. It recursively scans
@@ -8,7 +8,7 @@ description: |
 
 grade: stable
 confinement: strict
-base: core18
+base: core22
 
 title: DirSize
 website: https://github.com/frossm/dirsize
@@ -17,6 +17,11 @@ license: MIT
 
 # Enable faszter LZO compression
 compression: lzo
+
+# Ignore useless library warnings
+lint:
+  ignore:
+    - library
 
 apps:
   dirsize:
@@ -37,14 +42,28 @@ parts:
     source: https://github.com/frossm/library.git
     source-type: git
     source-tag: 'v2023.07.14'
-    maven-options: [install]
+    maven-parameters:
+      - install
+    
+    build-packages:
+      - maven
+      - openjdk-11-jdk-headless
 
   dirsize:
     plugin: maven
     source: https://github.com/frossm/dirsize.git
     source-branch: master
     source-type: git
-    after: [library]
+    after: 
+      - library
+    
+    build-packages:
+      - maven
+      - openjdk-11-jdk-headless
+
+    stage-packages:
+      - openjdk-11-jre-headless
+    
     override-prime: |
       snapcraftctl prime
       rm -vf usr/lib/jvm/java-11-openjdk-*/lib/security/blacklisted.certs
