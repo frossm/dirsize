@@ -118,6 +118,7 @@ public class Export {
 
 	/**
 	 * createNewFile(): Creates a new file (duh)
+	 * 
 	 * @return
 	 */
 	public boolean createNewFile() {
@@ -135,7 +136,11 @@ public class Export {
 	 * @return
 	 */
 	public String getName() {
-		return exportFile.getName();
+		try {
+			return exportFile.getName();
+		} catch (NullPointerException ex) {
+			return "";
+		}
 	}
 
 }

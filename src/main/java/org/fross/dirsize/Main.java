@@ -80,8 +80,9 @@ public class Main {
 		char sortBy = 's';	// Default is sortBy size. 'f' and 'd' are also allowed
 		boolean errorDisplayFlag = true;
 		boolean reverseSort = false;
+		boolean exportFlag = false;
 		int terminalWidth = 90;
-		Export exportFile= new Export();
+		Export exportFile = new Export();
 
 		// Define the HashMaps for the scanning results. The directory name will be the key.
 		HashMap<String, Long> mapSize = new HashMap<String, Long>();
@@ -142,6 +143,8 @@ public class Main {
 
 			// Export to CSV File
 			case 'x':
+				exportFlag = true;
+
 				try {
 					exportFile.setExportFilename(optG.getOptarg());
 					if (exportFile.createNewFile() == false) {
@@ -484,7 +487,7 @@ public class Main {
 
 				// Update the export objects
 				exportFile.addExportLine(displayName, mapSize.get(key), mapFiles.get(key));
-				
+
 			}
 			colorCounter++;
 		}
@@ -522,9 +525,11 @@ public class Main {
 		}
 
 		// Export the results to a CSV file if user requested an export
-		if (exportFile.writeToDisk() == false) {
-			Output.printColorln(Ansi.Color.RED, "Error exporting to file: " + exportFile.getName());
-		} 
+		if (exportFlag == true) {
+			if (exportFile.writeToDisk() == false) {
+				Output.printColorln(Ansi.Color.RED, "Error exporting to file: " + exportFile.getName());
+			}
+		}
 
 	}
 
