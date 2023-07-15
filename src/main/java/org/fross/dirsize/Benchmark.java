@@ -47,7 +47,7 @@ public class Benchmark {
 	 */
 	public Benchmark() {
 		startTime = LocalTime.now();
-		Output.debugPrint("Benchmark startTime = " + startTime.toString());
+		Output.debugPrintln("Benchmark startTime = " + startTime.toString());
 	}
 
 	/**
@@ -60,8 +60,8 @@ public class Benchmark {
 
 		delta = ChronoUnit.MILLIS.between(startTime, endTime);
 
-		Output.debugPrint("Benchmark endTime   = " + endTime.toString());
-		Output.debugPrint("Milliseconds delta = " + delta);
+		Output.debugPrintln("Benchmark endTime   = " + endTime.toString());
+		Output.debugPrintln("Milliseconds delta = " + delta);
 
 		return (delta);
 	}

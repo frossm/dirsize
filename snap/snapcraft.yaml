@@ -1,5 +1,5 @@
 name: dirsize
-version: '2.2.18'
+version: '2.2.20'
 summary: The Command line Directory Reporting Tool
 description: |
    DirSize is a directory reporting tool. It recursively scans
@@ -36,7 +36,7 @@ parts:
     plugin: maven
     source: https://github.com/frossm/library.git
     source-type: git
-    source-tag: 'v2022.11.21'
+    source-tag: 'v2023.07.14'
     maven-options: [install]
 
   dirsize:

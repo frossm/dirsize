@@ -68,7 +68,7 @@ public class ScanDir {
 				}
 			}
 		} catch (NullPointerException ex) {
-			Output.debugPrint("SCAN ERROR: '" + DirToScan.getAbsolutePath() + "'");
+			Output.debugPrintln("SCAN ERROR: '" + DirToScan.getAbsolutePath() + "'");
 			Main.errorList.put(DirToScan.getAbsolutePath(), ex.getMessage());
 
 		} catch (Exception Ex) {

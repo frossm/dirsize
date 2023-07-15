@@ -27,7 +27,6 @@
 package org.fross.dirsize;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -82,7 +81,7 @@ public class Main {
 		boolean errorDisplayFlag = true;
 		boolean reverseSort = false;
 		int terminalWidth = 90;
-		File exportFile = null;
+		Export exportFile= new Export();
 
 		// Define the HashMaps for the scanning results. The directory name will be the key.
 		HashMap<String, Long> mapSize = new HashMap<String, Long>();
@@ -107,7 +106,7 @@ public class Main {
 		// getWindowsTerminalWidth() doesn't seem to work within Eclipse
 		// This is a quick fix or ensure you use the -c switch as an argument
 		if (terminalWidth < 0) {
-			Output.debugPrint("Seems to be running within Eclipse. Setting columns to 100");
+			Output.debugPrintln("Seems to be running within Eclipse. Setting columns to 100");
 			terminalWidth = 100;
 		}
 
@@ -144,12 +143,12 @@ public class Main {
 			// Export to CSV File
 			case 'x':
 				try {
-					exportFile = new File(optG.getOptarg());
+					exportFile.setExportFilename(optG.getOptarg());
 					if (exportFile.createNewFile() == false) {
-						Output.fatalError("Could not create file: '" + exportFile + "'", 4);
+						throw new IOException();
 					}
 				} catch (IOException ex) {
-					Output.fatalError("Could not create file: '" + exportFile + "'", 4);
+					Output.fatalError("Could not create file: '" + exportFile.getName() + "'", 4);
 				}
 				break;
 
@@ -198,7 +197,7 @@ public class Main {
 					if (terminalWidth < MIN_TERMINAL_WIDTH) {
 						terminalWidth = MIN_TERMINAL_WIDTH;
 					}
-					Output.debugPrint("Number columns set to: " + terminalWidth);
+					Output.debugPrintln("Number columns set to: " + terminalWidth);
 				} catch (Exception Ex) {
 					Output.fatalError("Invalid Option for -c (columns) switch: '" + optG.getOptarg() + "'", 1);
 				}
@@ -261,28 +260,28 @@ public class Main {
 		}
 
 		// Debug output: Show root members
-		Output.debugPrint("Root Members to Process:");
-		Output.debugPrint("  Directories:");
+		Output.debugPrintln("Root Members to Process:");
+		Output.debugPrintln("  Directories:");
 		if (Debug.query() == true) {
 			for (int i = 0; i < rootMembers.length; i++) {
 				if (rootMembers[i].isDirectory() == true)
-					Output.debugPrint("     - " + rootMembers[i].toString());
+					Output.debugPrintln("     - " + rootMembers[i].toString());
 			}
 
-			Output.debugPrint("  Files:");
+			Output.debugPrintln("  Files:");
 			for (int i = 0; i < rootMembers.length; i++) {
 				if (rootMembers[i].isFile() == true)
-					Output.debugPrint("     - " + rootMembers[i].toString());
+					Output.debugPrintln("     - " + rootMembers[i].toString());
 			}
 		}
 
 		// Display important values after options have been set
-		Output.debugPrint("Columns set to: " + terminalWidth);
-		Output.debugPrint("Root Directory: " + rootDir);
-		Output.debugPrint("SortBy [s, f, d]: " + sortBy);
-		Output.debugPrint("Surpress Error Display: " + errorDisplayFlag);
+		Output.debugPrintln("Columns set to: " + terminalWidth);
+		Output.debugPrintln("Root Directory: " + rootDir);
+		Output.debugPrintln("SortBy [s, f, d]: " + sortBy);
+		Output.debugPrintln("Surpress Error Display: " + errorDisplayFlag);
 		try {
-			Output.debugPrint("Export Filename:  " + exportFile.getName());
+			Output.debugPrintln("Export Filename:  " + exportFile.getName());
 		} catch (NullPointerException ex) {
 			// Guess we're not exporting - ignore
 		}
@@ -346,12 +345,12 @@ public class Main {
 		int displaySizeCol = (int) (terminalWidth * DISPLAY_PERCENT_DIRSIZE * .01);
 		int displayVisualMap = (int) (terminalWidth * DISPLAY_PERCENT_VISUALMAP * .01) - 5;
 
-		Output.debugPrint("Column Widths:");
-		Output.debugPrint("  - Terminal Width: " + terminalWidth);
-		Output.debugPrint("  - Name:  " + DISPLAY_PERCENT_NAME + "% = " + displayNameCol + " Columns");
-		Output.debugPrint("  - Files: " + DISPLAY_PERCENT_NUMFILES + "% = " + displayFilesCol + " Columns");
-		Output.debugPrint("  - Size:  " + DISPLAY_PERCENT_DIRSIZE + "% = " + displaySizeCol + " Columns");
-		Output.debugPrint("  - Map:   " + DISPLAY_PERCENT_VISUALMAP + "% = " + displayVisualMap + " Columns");
+		Output.debugPrintln("Column Widths:");
+		Output.debugPrintln("  - Terminal Width: " + terminalWidth);
+		Output.debugPrintln("  - Name:  " + DISPLAY_PERCENT_NAME + "% = " + displayNameCol + " Columns");
+		Output.debugPrintln("  - Files: " + DISPLAY_PERCENT_NUMFILES + "% = " + displayFilesCol + " Columns");
+		Output.debugPrintln("  - Size:  " + DISPLAY_PERCENT_DIRSIZE + "% = " + displaySizeCol + " Columns");
+		Output.debugPrintln("  - Map:   " + DISPLAY_PERCENT_VISUALMAP + "% = " + displayVisualMap + " Columns");
 
 		// Determine the size of the VisualMap, which is a relative difference graphic between directories
 		// unitsPerSlot is the FileSize of FileNumber per asterisk
@@ -364,12 +363,12 @@ public class Main {
 			unitsPerSlot = (SizeMap.queryMax(mapSize, rootMembers) - SizeMap.queryMin(mapSize, rootMembers)) / displayVisualMap;
 		}
 
-		Output.debugPrint("Slots in VisualMap: " + displayVisualMap);
-		Output.debugPrint("Max Size found:       " + SizeMap.queryMax(mapSize, rootMembers));
-		Output.debugPrint("Min Size found:       " + SizeMap.queryMin(mapSize, rootMembers));
-		Output.debugPrint("Max Files found:       " + SizeMap.queryMax(mapFiles, rootMembers));
-		Output.debugPrint("Min Files found:       " + SizeMap.queryMin(mapFiles, rootMembers));
-		Output.debugPrint("Units Per slot:        " + unitsPerSlot);
+		Output.debugPrintln("Slots in VisualMap: " + displayVisualMap);
+		Output.debugPrintln("Max Size found:       " + SizeMap.queryMax(mapSize, rootMembers));
+		Output.debugPrintln("Min Size found:       " + SizeMap.queryMin(mapSize, rootMembers));
+		Output.debugPrintln("Max Files found:       " + SizeMap.queryMax(mapFiles, rootMembers));
+		Output.debugPrintln("Min Files found:       " + SizeMap.queryMin(mapFiles, rootMembers));
+		Output.debugPrintln("Units Per slot:        " + unitsPerSlot);
 
 		// Display the output header
 		Output.printColorln(Ansi.Color.CYAN, "-".repeat(terminalWidth));
@@ -460,28 +459,32 @@ public class Main {
 				Output.printColor(fgColor, bgColor, outString);
 
 				// DISPLAY SIZE OR FILES MAP
-				int numAsterisk;
+				int numFilledSlots;
 				try {
 					if (sortBy == 'f') {
-						numAsterisk = (int) (mapFiles.get(key) / unitsPerSlot);
+						numFilledSlots = (int) (mapFiles.get(key) / unitsPerSlot);
 					} else {
-						numAsterisk = (int) (mapSize.get(key) / unitsPerSlot);
+						numFilledSlots = (int) (mapSize.get(key) / unitsPerSlot);
 					}
 				} catch (ArithmeticException ex) {
 					// If there is an empty directory and no files, unitsPerSlot will be zero. Catch this.
-					numAsterisk = 0;
+					numFilledSlots = 0;
 				}
 
 				// Quick safety check for an out of bounds value
-				if (numAsterisk > displayVisualMap)
-					numAsterisk = displayVisualMap;
+				if (numFilledSlots > displayVisualMap)
+					numFilledSlots = displayVisualMap;
 
-				int numDashes = displayVisualMap - numAsterisk;
+				int numEmptySlots = displayVisualMap - numFilledSlots;
 				Output.printColor(Ansi.Color.WHITE, "    [");
-				Output.printColor(Ansi.Color.YELLOW, MAP_FILLED_CHAR.repeat(numAsterisk));
-				Output.printColor(Ansi.Color.CYAN, MAP_EMPTY_CHAR.repeat(numDashes));
+				Output.printColor(Ansi.Color.YELLOW, MAP_FILLED_CHAR.repeat(numFilledSlots));
+				Output.printColor(Ansi.Color.CYAN, MAP_EMPTY_CHAR.repeat(numEmptySlots));
 				Output.printColor(Ansi.Color.WHITE, "]");
 				System.out.println();
+
+				// Update the export objects
+				exportFile.addExportLine(displayName, mapSize.get(key), mapFiles.get(key));
+				
 			}
 			colorCounter++;
 		}
@@ -519,35 +522,9 @@ public class Main {
 		}
 
 		// Export the results to a CSV file if user requested an export
-		try {
-			if (exportFile.canWrite()) {
-				FileWriter exportFW;
-				try {
-					// Define the output file
-					exportFW = new FileWriter(exportFile);
-
-					// Output the header to the CSV file
-					exportFW.append("\"" + "Directory" + "\",\"" + "Size" + "\",\"" + "Files" + "\"\n");
-
-					// Loop through the results and export the output
-					for (Map.Entry<String, Long> i : resultMap.entrySet()) {
-						String key = i.getKey();
-						exportFW.append("\"" + mapFullPath.get(key) + "\",");
-						exportFW.append("\"" + mapSize.get(key) + "\",");
-						exportFW.append("\"" + mapFiles.get(key) + "\"");
-						exportFW.append("\n");
-					}
-					exportFW.flush();
-					exportFW.close();
-
-					Output.printColorln(Ansi.Color.CYAN, "\nExport Completed to file: " + exportFile.getAbsolutePath());
-				} catch (IOException ex) {
-					Output.printColorln(Ansi.Color.RED, "Error writing to export file: " + ex.getMessage());
-				}
-			}
-		} catch (Exception ex) {
-			// Looks like we are not exporting - ignore
-		}
+		if (exportFile.writeToDisk() == false) {
+			Output.printColorln(Ansi.Color.RED, "Error exporting to file: " + exportFile.getName());
+		} 
 
 	}
 
