@@ -3,7 +3,7 @@
  * 
  * DirSize is a simple command line based directory size reporting tool
  * 
- *  Copyright (c) 2019-2023 Michael Fross
+ *  Copyright (c) 2011-2024 Michael Fross
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
